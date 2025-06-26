@@ -1,128 +1,104 @@
-
-body {
+* {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #12181f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
+  padding: 0;
   box-sizing: border-box;
 }
 
-.login-container {
-  background-color: #1a1f25;
-  padding: 40px;
-  border-radius: 12px;
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.hero-section {
+  background: url('../assets/background.webp') no-repeat center center/cover;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
-  max-width: 400px;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+  height: 100%;
+  background-color: rgba(10, 10, 20, 0.7);
+  z-index: 1;
 }
 
-
-.login-container h2 {
+.content {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  margin-bottom: 25px;
-  color: #ff3c3c;
+  color: #fff;
+  padding: 20px;
 }
 
-
-.form-group {
+.content h1 {
+  font-size: 48px;
+  color: #ff3c3c;
   margin-bottom: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #ccc;
+.content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #ddd;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #2a2f36;
-  color: #fff;
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 30px;
   font-size: 16px;
-}
-
-.form-group input::placeholder {
-  color: #888;
-}
-
-/* Button */
-.login-btn {
-  width: 100%;
-  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  color: white;
   background-color: #ff3c3c;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  color: #fff;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
-  background-color: #e32b2b;
+.btn:hover {
+  background-color: #e63333;
 }
 
-/* Links */
-.bottom-links {
-  margin-top: 15px;
-  text-align: center;
+.btn.secondary {
+  background-color: transparent;
+  border: 2px solid #ff3c3c;
+  color: #ff3c3c;
 }
 
-.bottom-links a {
-  color: #aaa;
-  text-decoration: none;
-  font-size: 13px;
-  display: block;
-  margin-top: 5px;
+.btn.secondary:hover {
+  background-color: #ff3c3c;
+  color: white;
 }
 
-.bottom-links a:hover {
-  text-decoration: underline;
-}
-
-.bottom-links p {
-  font-size: 13px;
-  color: #aaa;
-  margin-top: 8px;
-}
-
-.bottom-links p a {
-  color: #aaa;
-  text-decoration: underline;
-}
-
-.bottom-links p a:hover {
-  color: #fff;
-}
-
-
-@media (max-width: 480px) {
-  .login-container {
-    padding: 30px 20px;
-    border-radius: 10px;
+@media (max-width: 600px) {
+  .content h1 {
+    font-size: 32px;
   }
 
-  .form-group input {
-    font-size: 14px;
-    padding: 8px;
+  .content p {
+    font-size: 16px;
   }
 
-  .login-btn {
-    font-size: 14px;
-    padding: 10px;
+  .btn {
+    width: 100%;
+    text-align: center;
   }
 
-  .bottom-links a,
-  .bottom-links p {
-    font-size: 12px;
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
   }
 }

@@ -1,4 +1,4 @@
-
+/* RESET & BASE STYLES */
 * {
   margin: 0;
   padding: 0;
@@ -7,117 +7,128 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #1a1f2b, #12161f);
+  background: linear-gradient(to right, #1c1f26, #13161b);
   color: #fff;
   display: flex;
   min-height: 100vh;
 }
 
-
+/* SIDEBAR */
 .sidebar {
   width: 220px;
-  background-color: #0f131a;
-  padding: 20px;
+  background-color: #0e1014;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border-right: 1px solid #2b2f38;
 }
 
 .sidebar h2 {
-  font-size: 22px;
   color: #ff3c3c;
-  margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .sidebar a {
+  color: #ddd;
   text-decoration: none;
-  color: #ccc;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 6px;
-  transition: 0.3s;
-  font-size: 15px;
+  transition: background 0.2s;
 }
 
-.sidebar a:hover,
+.sidebar a:hover {
+  background-color: #222;
+}
+
 .sidebar a.active {
   background-color: #ff3c3c;
-  color: white;
-}
-
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: url('cinema-bg.jpg') no-repeat center center fixed;
-  background-size: cover;
-  overflow: auto;
-}
-
-
-.navbar {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  backdrop-filter: blur(8px);
-}
-
-.navbar h1 {
-  font-size: 20px;
   color: #fff;
 }
 
-.navbar .user-info {
-  font-size: 14px;
-  color: #ccc;
+/* MAIN AREA */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
 }
 
-
-.content {
-  padding: 30px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
+/* NAVBAR */
+.navbar {
+  background-color: #1a1c22;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
 }
 
-.card {
-  background-color: rgba(20, 25, 35, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(255, 60, 60, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card h3 {
-  margin-bottom: 10px;
+.navbar h1 {
+  font-size: 24px;
   color: #ff3c3c;
 }
 
-.card p {
+.user-info {
   font-size: 14px;
-  color: #ccc;
+  color: #aaa;
 }
 
+/* DASHBOARD CONTENT */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
+/* SECTIONS IN DASHBOARD */
+.section {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.05);
+}
+
+.section h3 {
+  margin-bottom: 12px;
+  color: #ff3c3c;
+  font-size: 18px;
+}
+
+.section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.section ul li {
+  margin-bottom: 8px;
+  color: #ddd;
+  font-size: 15px;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
   .sidebar {
-    display: none;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .main {
+    padding: 20px;
   }
 
   .navbar {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .content {
-    padding: 20px;
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 }
