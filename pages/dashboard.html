@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cinema Dashboard</title>
-  <link rel="stylesheet" href="../styles/dashboard.css">
+  <link rel="stylesheet" href="../styles/dashboard.css" />
 </head>
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      <h2 class="logo">CINEMA</h2>
-      <nav class="nav-links">
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">My Account</a>
-        <a href="#">Favorites</a>
-        <a href="#">Settings</a>
-      </nav>
-    </aside>
+  <div class="sidebar">
+    <h2>Cinema</h2>
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">My Bookings</a>
+    <a href="#">Now Showing</a>
+    <a href="#">Account</a>
+    <a href="#">Settings</a>
+    <a href="../index.html">Logout</a>
+  </div>
 
-    <main class="main-content">
-      <header class="topbar">
-        <ul class="top-links">
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Bookings</a></li>
-          <li><a href="#">Snacks</a></li>
-          <li><a href="#">Admin</a></li>
-        </ul>
-        <div class="profile">Charbel ▾</div>
-      </header>
+  <div class="main">
+    <div class="navbar">
+      <h1>Welcome back</h1>
+      <div class="user-info">User: hadi@example.com</div>
+    </div>
 
-      <section class="dashboard">
-        <div class="card"> <h3>Current and Upcoming</h3> <p>4</p> </div>
-        <div class="card"> <h3>My Bookings</h3> <p>2</p> </div>
-        <div class="card"> <h3>Favorite Genres</h3> <p>Action, Sci-Fi</p> </div>
-        <div class="card"> <h3>RSVP/Payment Status</h3> <p>Awaiting Payment</p> </div>
-      </section>
-    </main>
+    <div class="content">
+      <div class="card">
+        <h3>Upcoming Movies</h3>
+        <p>Discover new titles hitting the big screen soon.</p>
+      </div>
+      <div class="card">
+        <h3>My Bookings</h3>
+        <p>View and manage your current reservations.</p>
+      </div>
+      <div class="card">
+        <h3>Pre-Order Snacks</h3>
+        <p>Pick your snacks in advance and skip the queue!</p>
+      </div>
+      <div class="card">
+        <h3>Friends Activity</h3>
+        <p>Track RSVPs and seat sharing with friends.</p>
+      </div>
+    </div>
   </div>
 </body>
 </html>
