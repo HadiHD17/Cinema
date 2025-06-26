@@ -6,8 +6,8 @@ $query="CREATE TABLE IF NOT EXISTS snack_orders (
     booking_id INT,
     snack_id INT,
     quantity INT,
-    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id),
-    FOREIGN KEY (snack_id) REFERENCES snacks(snack_id)
+    FOREIGN KEY (booking_id) REFERENCES bookings(id),
+    FOREIGN KEY (snack_id) REFERENCES snacks(id)
 )";
 
 $execute=$mysqli->prepare($query);

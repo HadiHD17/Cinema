@@ -2,7 +2,7 @@
 require("../connection/connection.php");
 
 $query="CREATE TABLE IF NOT EXISTS movies (
-    movie_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150),
     description TEXT,
     genre VARCHAR(100),

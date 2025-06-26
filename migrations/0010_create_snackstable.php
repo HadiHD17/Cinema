@@ -2,7 +2,7 @@
 require("../connection/connection.php");
 
 $query="CREATE TABLE IF NOT EXISTS snacks (
-    snack_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     price DECIMAL(5,2),
     image VARCHAR(255)

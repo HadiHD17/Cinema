@@ -2,7 +2,7 @@
 require("../connection/connection.php");
 
 $query="CREATE TABLE IF NOT EXISTS pricing_rules (
-    rule_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     rule_type ENUM('peak', 'offpeak', 'coupon', 'member', 'lastminute'),
     value_type ENUM('percent', 'fixed'),
     amount DECIMAL(6,2),
