@@ -7,7 +7,7 @@ class SnackOrder extends Model {
     private int $quantity;
     
 
-    protected static string $table = "snackorders";
+    protected static string $table = "snack_orders";
 
     public function __construct(array $data) {
         $this->id = $data["id"];
