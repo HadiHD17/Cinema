@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Cinema Booking</title>
+  <link rel="stylesheet" href="../styles/register.css" />
+</head>
+<body>
+  <div class="register-container">
+    <h2>Create Your Account</h2>
+    <form method="post">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="e.g. 03012345" required />
+      </div>
+      <div class="form-group">
+        <label for="bday">Birth Date</label>
+        <input type="date" id="bday" name="bday" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required />
+      </div>
+      <button type="submit" class="register-btn">Register</button>
+      <div class="bottom-links">
+        <p>Already have an account? <a href="../index.html">Login</a></p>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

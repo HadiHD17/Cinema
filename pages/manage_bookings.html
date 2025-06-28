@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Bookings</title>
+  <link rel="stylesheet" href="../styles/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Cinema Admin</h2>
+      <ul>
+        <li><a href="admin.html">Dashboard</a></li>
+        <li><a href="manage_movies.html">Manage Movies</a></li>
+        <li><a href="manage_showtimes.html">Showtimes</a></li>
+        <li><a href="manage_users.html">Users</a></li>
+        <li><a href="manage_bookings.html">Bookings</a></li>
+        <li><a href="manage_snacks.html">Snacks</a></li>
+        <li><a href="manage_payments.html">Payments</a></li>
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <main class="main-content">
+      <h1>Manage Bookings</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Movie</th>
+            <th>Seats</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Smith</td>
+            <td>Oppenheimer</td>
+            <td>A3, A4</td>
+            <td>2025-07-10</td>
+            <td>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+</html>
