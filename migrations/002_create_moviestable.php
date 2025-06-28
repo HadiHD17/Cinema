@@ -17,4 +17,6 @@ $query="CREATE TABLE IF NOT EXISTS movies (
 
 $execute=$mysqli->prepare($query);
 $execute->execute();
+$execute->close();
+$mysqli->close();
 ?>

@@ -1,8 +1,56 @@
 <?php
 require("../connection/connection.php");
 
+$users = [
+    [
+        'full_name' => 'Alice Smith',
+        'email' => 'alice@example.com',
+        'phone' => '70123456',
+        'password' => 'password123',
+        'BDay' => '1995-06-20',
+        'is_verified' => 1,
+        'id_document' => 'alice_id.png',
+        'favorite_genres' => 'Action,Comedy',
+        'comm_pref' => 'email'
+    ],
+    [
+        'full_name' => 'Bob Jones',
+        'email' => 'bob@example.com',
+        'phone' => '71123456',
+        'password' => 'securepass',
+        'BDay' => '1990-03-15',
+        'is_verified' => 0,
+        'id_document' => 'bob_id.jpg',
+        'favorite_genres' => 'Horror,Thriller',
+        'comm_pref' => 'sms'
+    ]
+];
 
+$stmt = $mysqli->prepare("INSERT INTO users (
+    full_name, email, phone, password, BDay, is_verified, 
+    id_document, favorite_genres, comm_pref, created_at
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-$mysqli->query("INSERT INTO users (full_name, email, phone, password, BDay, is_verified, id_document, favorite_genres, comm_pref) 
-VALUES ('Alice Smith', 'alice@example.com', '70123456', 'password123', '1995-06-20', 1, 'alice_id.png', 'Action,Comedy', 'email'),
- ('Bob Jones', 'bob@example.com', '71123456', 'securepass', '1990-03-15', 0, 'bob_id.jpg', 'Horror,Thriller', 'sms')");
+foreach ($users as $user) {
+    $hashedPassword = password_hash($user['password'], PASSWORD_DEFAULT);
+    $createdAt = date('Y-m-d H:i:s');
+    
+    $stmt->bind_param(
+        "sssssissss",
+        $user['full_name'],
+        $user['email'],
+        $user['phone'],
+        $hashedPassword,
+        $user['BDay'],
+        $user['is_verified'],
+        $user['id_document'],
+        $user['favorite_genres'],
+        $user['comm_pref'],
+        $createdAt
+    );
+    
+    $stmt->execute();
+}
+
+$stmt->close();
+$mysqli->close();
