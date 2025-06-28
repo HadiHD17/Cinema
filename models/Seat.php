@@ -3,7 +3,7 @@ require_once("Model.php");
 class Seat extends Model {
     private int $id;
     private int $showtime_id;
-    private string $label;
+    private string $seat_label;
     private string $status;
     
 
@@ -12,7 +12,7 @@ class Seat extends Model {
     public function __construct(array $data) {
         $this->id = $data["id"];
         $this->showtime_id = $data["showtime_id"];
-        $this->label = $data["label"];
+        $this->seat_label = $data["seat_label"];
         $this->status = $data["status"];
         
     }
@@ -24,7 +24,7 @@ class Seat extends Model {
         return $this->showtime_id; 
     }
     public function getlabel(): string { 
-        return $this->label; 
+        return $this->seat_label; 
     }
     public function getstatus(): string { 
         return $this->status; 
@@ -35,7 +35,7 @@ class Seat extends Model {
         $this->showtime_id = $id; 
     }
     public function setlabel(string $L) { 
-        $this->label = $L; 
+        $this->seat_label = $L; 
     }
     public function setstatus(string $s) { 
         $this->status = $s; 
@@ -46,7 +46,7 @@ class Seat extends Model {
         return [
             $this->id,
             $this->showtime_id,
-            $this->label,
+            $this->seat_label,
             $this->status
             
         ];

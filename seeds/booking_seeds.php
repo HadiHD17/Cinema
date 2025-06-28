@@ -5,9 +5,9 @@ require("../connection/connection.php");
 $bookings = [
     ['user_id' => 3, 'showtime_id' => 1, 'total_price' => 80, 'status' => 'confirmed'],
     ['user_id' => 3, 'showtime_id' => 2, 'total_price' => 100, 'status' => 'cancelled'],
-    ['user_id' => 5, 'showtime_id' => 1, 'total_price' => 120, 'status' => 'confirmed'],
-    ['user_id' => 2, 'showtime_id' => 3, 'total_price' => 60, 'status' => 'pending'],
-    ['user_id' => 4, 'showtime_id' => 2, 'total_price' => 90, 'status' => 'confirmed']
+    ['user_id' => 8, 'showtime_id' => 1, 'total_price' => 120, 'status' => 'confirmed'],
+    ['user_id' => 7, 'showtime_id' => 3, 'total_price' => 60, 'status' => 'pending'],
+    ['user_id' => 8, 'showtime_id' => 2, 'total_price' => 90, 'status' => 'confirmed']
 ];
 
 $stmt = $mysqli->prepare("INSERT INTO bookings (

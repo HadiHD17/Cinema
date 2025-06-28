@@ -41,15 +41,15 @@ $movies = [
 
 $query = "INSERT INTO movies (
     title, description, genre, age_rating, trailer_url, 
-    cast, release_date, end_date, poster_image
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    cast, release_date, end_date, poster_image,created_at
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 $stmt = $mysqli->prepare($query);
 
 foreach ($movies as $movie) {
     $createdAt = date('Y-m-d H:i:s');
     $stmt->bind_param(
-        "sssssssss",
+        "ssssssssss",
         $movie['title'],
         $movie['description'],
         $movie['genre'],

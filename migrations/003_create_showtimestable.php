@@ -7,7 +7,7 @@ $query="CREATE TABLE IF NOT EXISTS showtimes (
     auditorium VARCHAR(50),
     show_date DATE,
     show_time TIME,
-    is_peak BOOLEAN DEFAULT 0,
+    is_peak BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (movie_id) REFERENCES movies(id)
         ON DELETE CASCADE
 )";
