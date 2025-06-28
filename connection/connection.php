@@ -1,4 +1,5 @@
 <?php
+require_once("../models/Model.php");
 $host = 'localhost';
 $dbname = 'cinemadb';
 $username = 'root';

@@ -1,6 +1,6 @@
 <?php 
 require("../models/User.php");
-require("../connection/connection.php");
+require_once("../connection/connection.php");
 
 $response = [];
 $response["status"] = 200;

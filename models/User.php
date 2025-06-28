@@ -27,6 +27,8 @@ class User extends Model {
         $this->favorite_genres = $data["favorite_genres"];
         $this->comm_pref = $data["comm_pref"];
         $this->created_at = $data["created_at"];
+        
+    
     }
 
     public function getid(): int { 
