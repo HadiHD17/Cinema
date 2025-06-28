@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Showtime extends Model {
     private int $id;
     private int $movie_id;
@@ -18,18 +19,40 @@ class Showtime extends Model {
         $this->is_peak=$data["is_peak"];
     }
 
-    public function getid(): int { return $this->id; }
-    public function getmovie(): int { return $this->movie_id; }
-    public function getstart(): DateTime { return $this->start_time; }
-    public function getdate(): DateTime { return $this->date; }
-    public function getauditorium(): string { return $this->auditorium; }
-    public function getpeak():bool{ return $this->is_peak;}
+    public function getid(): int { 
+        return $this->id; 
+    }
+    public function getmovie(): int { 
+        return $this->movie_id; 
+    }
+    public function getstart(): DateTime { 
+        return $this->start_time; 
+    }
+    public function getdate(): DateTime { 
+        return $this->date; 
+    }
+    public function getauditorium(): string { 
+        return $this->auditorium; 
+    }
+    public function getpeak():bool{ 
+        return $this->is_peak;
+    }
 
-    public function setmovie(int $id) { $this->movie_id = $id; }
-    public function setstart(DateTime $t) { $this->start_time = $t; }
-    public function setdate(DateTime $d) { $this->date = $d; }
-    public function setauditorium(string $a) { $this->auditorium = $a; }
-    public function setpeak(bool $p){ $this->is_peak=$p;}
+    public function setmovie(int $id) { 
+        $this->movie_id = $id; 
+    }
+    public function setstart(DateTime $t) { 
+        $this->start_time = $t; 
+    }
+    public function setdate(DateTime $d) { 
+        $this->date = $d; 
+    }
+    public function setauditorium(string $a) { 
+        $this->auditorium = $a; 
+    }
+    public function setpeak(bool $p){ 
+        $this->is_peak=$p;
+    }
 
     public function toArray() {
         return [

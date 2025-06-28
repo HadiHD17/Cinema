@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class FriendInvite extends Model{
     private int $id;
     private int $bookingId;

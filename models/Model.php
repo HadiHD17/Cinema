@@ -25,11 +25,13 @@ abstract class Model{
         $sql = sprintf("SELECT * FROM %s", static::$table);
         $query = static::$db->prepare($sql);
         $query->execute();
-
+        
+        $objects=[];
         $result = $query->get_result();
         while ($data = $result->fetch_assoc()) {
-            new static($data); 
+            $objects[]=new static($data); 
         }
+        return $objects;
     }
     public static function delete(int $id) {
         $sql = sprintf("DELETE FROM %s WHERE %s = ?", static::$table, static::$primary_key);

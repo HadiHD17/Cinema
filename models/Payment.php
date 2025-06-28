@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Payment extends Model {
     private int $id;
     private int $user_id;

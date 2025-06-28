@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class User extends Model {
     private int $id;
     private string $full_name;

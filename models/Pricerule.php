@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Pricerule extends Model {
     private int $id;
     private string $rule_type;
@@ -16,16 +17,34 @@ class Pricerule extends Model {
         $this->condition=$data["condition"];
     }
 
-    public function getid(): int { return $this->id; }
-    public function getrule(): string { return $this->rule_type; }
-    public function getvalue(): string { return $this->value_type; }
-    public function getamount(): float { return $this->amount; }
-    public function getcondition(): string{ return $this->condition;}
+    public function getid(): int { 
+        return $this->id; 
+    }
+    public function getrule(): string { 
+        return $this->rule_type; 
+    }
+    public function getvalue(): string { 
+        return $this->value_type; 
+    }
+    public function getamount(): float { 
+        return $this->amount; 
+    }
+    public function getcondition(): string{ 
+        return $this->condition;
+    }
 
-    public function setrule(string $r) { $this->rule_type = $r; }
-    public function setvalue(string $v) { $this->value_type = $v; }
-    public function setamount(float $a) { $this->amount = $a; }
-    public function setcondition(string $c){ $this->condition=$c;}
+    public function setrule(string $r) { 
+        $this->rule_type = $r; 
+    }
+    public function setvalue(string $v) {
+        $this->value_type = $v; 
+    }
+    public function setamount(float $a) { 
+        $this->amount = $a; 
+    }
+    public function setcondition(string $c){ 
+        $this->condition=$c;
+    }
 
     public function toArray() {
         return [

@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Movie extends Model{
     private int $id;
     private string $title;

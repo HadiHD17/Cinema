@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Booking extends Model{
     private int $id;
     private int $userId;

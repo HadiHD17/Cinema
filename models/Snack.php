@@ -1,4 +1,5 @@
 <?php
+require_once("Model.php");
 class Snack extends Model {
     private int $id;
     private string $name;
@@ -14,14 +15,28 @@ class Snack extends Model {
         $this->image = $data["image"];
     }
 
-    public function getid(): int { return $this->id; }
-    public function getname(): string { return $this->name; }
-    public function getprice(): float { return $this->price; }
-    public function getimage(): string { return $this->image; }
+    public function getid(): int { 
+        return $this->id; 
+    }
+    public function getname(): string { 
+        return $this->name; 
+    }
+    public function getprice(): float { 
+        return $this->price; 
+    }
+    public function getimage(): string { 
+        return $this->image; 
+    }
 
-    public function setname(string $n) { $this->name = $n; }
-    public function setprice(float $p) { $this->price = $p; }
-    public function setimage(string $i) { $this->image = $i; }
+    public function setname(string $n) { 
+        $this->name = $n; 
+    }
+    public function setprice(float $p) { 
+        $this->price = $p; 
+    }
+    public function setimage(string $i) { 
+        $this->image = $i; 
+    }
 
     public function toArray() {
         return [
