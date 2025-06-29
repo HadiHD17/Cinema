@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Cinema Booking</title>
   <link rel="stylesheet" href="../styles/register.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../scripts/register.js" defer></script>
+
 </head>
 <body>
   <div class="register-container">
     <h2>Create Your Account</h2>
-    <form method="post">
+    <form id="register-form">
       <div class="form-group">
         <label for="fullname">Full Name</label>
         <input type="text" id="fullname" name="fullname" placeholder="Your full name" required />
@@ -30,6 +33,16 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Create a password" required />
       </div>
+      <div class="form-group">
+        <label>
+          Communication Preference:
+          <select name="comm_pref" required>
+            <option value="">-- Select --</option>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="both">Both</option>
+          </select>
+        </label></div>
       <button type="submit" class="register-btn">Register</button>
       <div class="bottom-links">
         <p>Already have an account? <a href="../index.html">Login</a></p>
