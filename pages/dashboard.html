@@ -2,78 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cinema Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Cinema Dashboard</title>
   <link rel="stylesheet" href="../styles/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="../scripts/dashboard.js"></script>
 </head>
 <body>
-<div class="sidebar">
-  <h2>Cinema</h2>
-  <a href="dashboard.html" class="active">Dashboard</a>
-  <a href="bookings.html">My Bookings</a>
-  <a href="nowshowing.html">Now Showing</a>
-  <a href="snacks.html">Pre-Order Snacks</a>
-  <a href="account.html">Account</a>
-  <a href="settings.html">Settings</a>
-  <a href="login.html">Logout</a>
-</div>
-
-  <div class="main">
-    <div class="navbar">
-      <h1>Welcome back</h1>
-      <div class="user-info">User: hadi@example.com</div>
-    </div>
-
-    <div class="content">
-  <h2>Welcome back, Hadi! 👋</h2>
-
-  <div class="section">
-    <h3>🎞 Auto-Bookings for This Week</h3>
-    <ul>
-      <li>🚨 Action Night - *Fast X* on Thursday at 8:00PM</li>
-      <li>🎭 Drama Pick - *Joker* on Sunday at 6:00PM</li>
-    </ul>
+  <div class="sidebar">
+    <h2>Smart Cinema</h2>
+    <nav>
+      <button id="nav-movies" class="nav-btn active">Movies</button>
+       
+      <button id="nav-snacks" class="nav-btn">Snacks</button>
+      <button id="nav-account" class="nav-btn">Account</button>
+      <button id="nav-logout" class="nav-btn">Logout</button>
+    </nav>
   </div>
 
-  <div class="section">
-    <h3>🍿 Your Snack Pre-orders</h3>
-    <ul>
-      <li>✔️ Large Popcorn + Soda (Row B)</li>
-      <li>✔️ Nachos Combo (Row C)</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>🧑‍🤝‍🧑 Friends RSVP Status</h3>
-    <ul>
-      <li>Ahmed ✅ | Samer ❌ | Maya ⏳</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>💸 Current Discounts</h3>
-    <ul>
-      <li>🎟 10% Member Discount (Applied)</li>
-      <li>🔥 Last-Minute Deal on *Inside Out 2*</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>🔐 Account Health</h3>
-    <ul>
-      <li>✅ Age Verified</li>
-      <li>✅ Email Verified</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h3>⏱ Weekly Booking Limit</h3>
-    <ul>
-      <li>🎫 3 / 5 tickets used this week</li>
-    </ul>
-  </div>
-</div>
-
-  </div>
+  <main class="main-content">
+    <div id="content"></div>
+  </main>
 </body>
 </html>
