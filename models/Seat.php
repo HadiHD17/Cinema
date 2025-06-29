@@ -44,10 +44,10 @@ class Seat extends Model {
 
     public function toArray() {
         return [
-            $this->id,
-            $this->showtime_id,
-            $this->seat_label,
-            $this->status
+            "id"=>$this->id,
+            "showtime_id"=>$this->showtime_id,
+            "seat_label"=>$this->seat_label,
+            "status"=>$this->status
             
         ];
     }

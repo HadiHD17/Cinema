@@ -56,12 +56,12 @@ class Showtime extends Model {
 
     public function toArray() {
         return [
-            $this->id,
-            $this->movie_id,
-            $this->auditorium,
-            $this->show_date,
-            $this->show_time,
-            $this->is_peak
+            "id"=>$this->id,
+            "movie_id"=>$this->movie_id,
+            "auditorium"=>$this->auditorium,
+            "show_date"=>$this->show_date,
+            "show_time"=>$this->show_time,
+            "is_peak"=>$this->is_peak
         ];
     }
 }

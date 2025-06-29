@@ -94,7 +94,17 @@ class Movie extends Model{
         $this->created_at=$created;
     }
      public function toArray(){
-        return [$this->id, $this->title, $this->description, $this->genre, $this->age_rating, $this->trailer_url, $this->cast, $this->release_date, $this->end_date, $this->poster_image, $this->created_at];
+        return ["id"=>$this->id, 
+        "title"=>$this->title,
+        "description"=>$this->description, 
+        "genre"=>$this->genre, 
+        "age_rating"=>$this->age_rating, 
+        "trailer_url"=>$this->trailer_url, 
+        "cast"=>$this->cast, 
+        "release_date"=>$this->release_date, 
+        "end_date"=>$this->end_date, 
+        "poster_image"=>$this->poster_image, 
+        "created_at"=>$this->created_at];
     }
     
 }

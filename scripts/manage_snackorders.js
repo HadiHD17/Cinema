@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   axios.get("http://localhost/wamp64_projects/Cinema/controllers/get_snackorders.php")
     .then(res => {
-      const snackorders = res.data.snackorders;
+      const snackorders = res.data.orders;
       body.innerHTML = "";
       snackorders.forEach(order => {
         const row = document.createElement("tr");

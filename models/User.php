@@ -95,17 +95,17 @@ class User extends Model {
 
     public function toArray() {
         return [
-            $this->id,
-            $this->full_name,
-            $this->email,
-            $this->phone,
-            $this->password,
-            $this->BDay,
-            $this->is_verified,
-            $this->id_document,
-            $this->favorite_genres,
-            $this->comm_pref,
-            $this->created_at
+            "id"=>$this->id,
+            "full_name"=>$this->full_name,
+            "email"=>$this->email,
+            "phone"=>$this->phone,
+            "password"=>$this->password,
+            "BDay"=>$this->BDay,
+            "is_verified"=>$this->is_verified,
+            "id_document"=>$this->id_document,
+            "favorite_genres"=>$this->favorite_genres,
+            "comm_pref"=>$this->comm_pref,
+            "created_at"=>$this->created_at
         ];
     }
 }

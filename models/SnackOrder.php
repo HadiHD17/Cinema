@@ -44,10 +44,10 @@ class SnackOrder extends Model {
 
     public function toArray() {
         return [
-            $this->id,
-            $this->booking_id,
-            $this->snack_id,
-            $this->quantity
+            "id"=>$this->id,
+            "booking_id"=>$this->booking_id,
+            "snack_id"=>$this->snack_id,
+            "quantity"=>$this->quantity
         ];
     }
 }
