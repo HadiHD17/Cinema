@@ -17,8 +17,8 @@ if(!isset($_GET["id"])){
 }
 
 $id = $_GET["id"];
-$snacks = Snack::find( $id);
-$response["snacks"] = $snacks->toArray();
+$snack = Snack::find( $id);
+$response["snack"] = $snack->toArray();
 
 echo json_encode($response);
 return;

@@ -57,13 +57,17 @@ try {
             break;
 
         case 'delete':
-            if (empty($data['id'])) {
-                throw new InvalidArgumentException("Seat ID is required for deletion");
-            }
-            
-            Booking::delete($data['id']);
-            $response['message'] = 'Seat deleted successfully';
-            break;
+    // Safely get ID from $data['id']
+    $deleteId = $data['id'] ?? null;
+
+    if (empty($deleteId)) {
+        throw new InvalidArgumentException("Seat ID is required for deletion");
+    }
+
+    // Assuming you have Seat::delete() method, NOT Booking::delete()
+    Seat::delete($deleteId);
+    $response['message'] = 'Seat deleted successfully';
+    break;
     }
 
     

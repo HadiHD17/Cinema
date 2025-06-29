@@ -9,22 +9,26 @@
 </head>
 <body>
   <div class="admin-container">
+    <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <h2>Admin Panel</h2>
-      <a href="admin.html">Dashboard</a>
-      <a href="manage_users.html">Manage Users</a>
-      <a href="manage_movies.html" class="active">Manage Movies</a>
-      <a href="manage_showtimes.html">Manage Showtimes</a>
-      <a href="manage_seats.html">Manage Seats</a>
-      <a href="manage_bookings.html">Manage Bookings</a>
-      <a href="manage_payments.html">Manage Payments</a>
-      <a href="manage_snacks.html">Manage Snacks</a>
-      <a href="manage_snackorders.html">Manage Snack Orders</a>
+      <nav>
+        <a href="admin.html">Dashboard</a>
+        <a href="manage_users.html">Manage Users</a>
+        <a href="manage_movies.html" class="active">Manage Movies</a>
+        <a href="manage_showtimes.html">Manage Showtimes</a>
+        <a href="manage_seats.html">Manage Seats</a>
+        <a href="manage_bookings.html">Manage Bookings</a>
+        <a href="manage_payments.html">Manage Payments</a>
+        <a href="manage_snacks.html">Manage Snacks</a>
+        <a href="manage_snackorders.html">Manage Snack Orders</a>
+      </nav>
     </aside>
 
+    <!-- Main Content Area -->
     <main class="main-content">
       <h1>Manage Movies</h1>
-      <button onclick="openModal()">Add New Movie</button>
+      <button id="add-movie-btn">Add New Movie</button>
       <table>
         <thead>
           <tr>
@@ -46,23 +50,53 @@
     </main>
   </div>
 
-  <!-- Modal -->
+  <!-- Movie Form Modal -->
   <div id="movies-modal" class="modal hidden">
     <div class="modal-content">
       <h2>Movie Form</h2>
       <form id="movies-form">
         <input type="hidden" name="id" />
-        <label>Title: <input name="title" required /></label>
-        <label>Description: <textarea name="description" required></textarea></label>
-        <label>Genre: <input name="genre" required /></label>
-        <label>Age Rating: <input name="age_rating" required /></label>
-        <label>Trailer URL: <input name="trailer_url" required /></label>
-        <label>Cast: <input name="cast" required /></label>
-        <label>Release Date: <input type="date" name="release_date" required /></label>
-        <label>End Date: <input type="date" name="end_date" required /></label>
-        <label>Poster Image: <input name="poster_image" required /></label>
-        <button type="submit">Save</button>
-        <button type="button" id="close-modal">Cancel</button>
+        
+        <label>Title:
+          <input type="text" name="title" required />
+        </label>
+        
+        <label>Description:
+          <textarea name="description" required></textarea>
+        </label>
+        
+        <label>Genre:
+          <input type="text" name="genre" required />
+        </label>
+        
+        <label>Age Rating:
+          <input type="text" name="age_rating" required />
+        </label>
+        
+        <label>Trailer URL:
+          <input type="url" name="trailer_url" required />
+        </label>
+        
+        <label>Cast:
+          <input type="text" name="cast" required />
+        </label>
+        
+        <label>Release Date:
+          <input type="date" name="release_date" required />
+        </label>
+        
+        <label>End Date:
+          <input type="date" name="end_date" required />
+        </label>
+        
+        <label>Poster Image URL:
+          <input type="text" name="poster_image" required />
+        </label>
+
+        <div class="modal-buttons">
+          <button type="submit">Save</button>
+          <button type="button" id="close-modal">Cancel</button>
+        </div>
       </form>
     </div>
   </div>

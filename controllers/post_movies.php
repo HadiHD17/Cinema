@@ -58,7 +58,7 @@ try {
 
         case 'delete':
             if (empty($data['id'])) {
-                throw new InvalidArgumentException("User ID is required for deletion");
+                throw new InvalidArgumentException("Movie ID is required for deletion");
             }
             
             Movie::delete($data['id']);

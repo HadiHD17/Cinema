@@ -71,7 +71,8 @@ try {
 
     
     if ($action !== 'delete' && !empty($id ?? $data['id'] ?? null)) {
-        $response['data'] = User::find($id ?? $data['id'])->toArray();
+        $user = User::find($id ?? $data['id']);
+        $response['data'] = $user ? $user->toArray() : null;
     }
 
 } catch (InvalidArgumentException $e) {

@@ -1,14 +1,79 @@
+console.log("✅ Showtimes script is running!");
+
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById("showtimes-table-body");
   const modal = document.getElementById("showtimes-modal");
   const form = document.getElementById("showtimes-form");
   const closeBtn = document.getElementById("close-modal");
+  const addBtn = document.getElementById("add-showtime-btn");
 
-  axios.get("http://localhost/wamp64_projects/Cinema/controllers/get_showtimes.php")
-    .then(res => {
-      const data = res.data.showtimes;
+  console.log("📍 Add button:", addBtn);
+
+  loadShowtimes();
+
+  addBtn.addEventListener("click", () => {
+    console.log("🟢 Add button clicked");
+    openModal();
+  });
+
+  closeBtn.onclick = () => modal.classList.add("hidden");
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    const mode = form.getAttribute("data-mode");
+    const id = form.elements.id.value.trim();
+
+    const showtimeData = {
+      movie_id: form.elements.movie_id.value,
+      auditorium: form.elements.auditorium.value,
+      show_date: form.elements.show_date.value,
+      show_time: form.elements.show_time.value,
+      is_peak: form.elements.is_peak.value
+    };
+
+    if (mode === "update") {
+      if (!id) {
+        alert("Showtime ID is required for update");
+        return;
+      }
+      showtimeData.id = parseInt(id, 10);
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost/wamp64_projects/Cinema/controllers/post_showtimes.php",
+        {
+          action: mode,
+          data: showtimeData
+        },
+        {
+          headers: { "Content-Type": "application/json" }
+        }
+      );
+
+      if (response.data.status === 200) {
+        alert("Showtime saved successfully!");
+        modal.classList.add("hidden");
+        loadShowtimes();
+      } else {
+        console.log("❌ Server response:", response.data);
+        throw new Error(response.data.message || "Save failed");
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
+      console.error(error);
+    }
+  };
+
+  async function loadShowtimes() {
+    try {
+      const response = await axios.get(
+        "http://localhost/wamp64_projects/Cinema/controllers/get_showtimes.php"
+      );
+      const data = response.data.showtimes;
       body.innerHTML = "";
-      data.forEach(st => {
+
+      data.forEach((st) => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${st.id}</td>
@@ -24,69 +89,70 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         body.appendChild(row);
       });
+
       attachListeners();
-    });
+    } catch (error) {
+      console.error("Failed to load showtimes:", error);
+    }
+  }
 
   function attachListeners() {
-    document.querySelectorAll(".edit-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        const tr = button.closest("tr").children;
-        const st = {
-          id: tr[0].innerText,
-          movie_id: tr[1].innerText,
-          auditorium: tr[2].innerText,
-          show_date: tr[3].innerText,
-          show_time: tr[4].innerText,
-          is_peak: tr[5].innerText === "Yes" ? "1" : "0"
-        };
-        openModal(st);
+    document.querySelectorAll(".edit-btn").forEach(async (btn) => {
+      btn.addEventListener("click", async () => {
+        const showtimeId = btn.getAttribute("data-id");
+        try {
+          const res = await axios.get(
+            `http://localhost/wamp64_projects/Cinema/controllers/get_showtimes.php?id=${showtimeId}`
+          );
+          if (res.data && res.data.showtimes) {
+            openModal(res.data.showtimes);
+          }
+        } catch (err) {
+          console.error("Edit error:", err);
+        }
       });
     });
 
-    document.querySelectorAll(".delete-btn").forEach(button => {
-      button.addEventListener("click", () => {
-        const id = button.getAttribute("data-id");
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
         if (confirm("Are you sure you want to delete this showtime?")) {
-          axios.post("http://localhost/wamp64_projects/Cinema/controllers/post_showtimes.php", {
-            action: "delete",
-            id
-          }).then(() => location.reload());
+          try {
+            const res = await axios.post(
+              "http://localhost/wamp64_projects/Cinema/controllers/post_showtimes.php",
+              {
+                action: "delete",
+                data: { id }
+              },
+              {
+                headers: { "Content-Type": "application/json" }
+              }
+            );
+            if (res.data.status === 200) {
+              alert("Showtime deleted.");
+              loadShowtimes();
+            } else {
+              throw new Error(res.data.message || "Delete failed");
+            }
+          } catch (err) {
+            console.error("Delete error:", err);
+            alert("Delete failed: " + err.message);
+          }
         }
       });
     });
   }
 
-  window.openModal = function(st = {}) {
+  window.openModal = function (st = {}) {
     modal.classList.remove("hidden");
-    form.id.value = st.id || "";
-    form.movie_id.value = st.movie_id || "";
-    form.auditorium.value = st.auditorium || "";
-    form.show_date.value = st.show_date || "";
-    form.show_time.value = st.show_time || "";
-    form.is_peak.value = st.is_peak || "0";
-    form.setAttribute("data-mode", st.id ? "edit" : "create");
-  };
 
-  closeBtn.onclick = () => modal.classList.add("hidden");
+    form.elements.id.value = st.id || "";
+    form.elements.movie_id.value = st.movie_id || "";
+    form.elements.auditorium.value = st.auditorium || "";
+    form.elements.show_date.value = st.show_date || "";
+    form.elements.show_time.value = st.show_time || "";
+    form.elements.is_peak.value = st.is_peak != null ? st.is_peak.toString() : "0";
 
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const mode = form.getAttribute("data-mode");
-    const data = {
-      id: form.id.value,
-      movie_id: form.movie_id.value,
-      auditorium: form.auditorium.value,
-      show_date: form.show_date.value,
-      show_time: form.show_time.value,
-      is_peak: form.is_peak.value,
-      action: mode
-    };
-
-    axios.post("http://localhost/wamp64_projects/Cinema/controllers/post_showtimes.php", data)
-      .then(() => {
-        alert("Showtime saved!");
-        modal.classList.add("hidden");
-        location.reload();
-      });
+    form.setAttribute("data-mode", st.id ? "update" : "create");
   };
 });

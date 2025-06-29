@@ -17,8 +17,8 @@ if(!isset($_GET["id"])){
 }
 
 $id = $_GET["id"];
-$payments = Payment::find( $id);
-$response["payments"] = $payments->toArray();
+$payment = Payment::find( $id);
+$response["payment"] = $payment->toArray();
 
 echo json_encode($response);
 return;

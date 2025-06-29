@@ -24,7 +24,7 @@
 
     <main class="main-content">
       <h1>Manage Payments</h1>
-      <button onclick="openModal()">Add Payment</button>
+      <button id="add-payment-btn">Add Payment</button>
       <table>
         <thead>
           <tr>
@@ -53,7 +53,8 @@
         <label>Payment Method: 
           <select name="payment_method">
             <option value="card">Card</option>
-            <option value="cash">Cash</option>
+            <option value="paypal">Paypal</option>
+            <option value="split">Split</option>
             <option value="wallet">Wallet</option>
           </select>
         </label>

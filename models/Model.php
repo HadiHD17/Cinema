@@ -4,6 +4,16 @@ abstract class Model{
     protected static string $primary_key="id";
     protected static mysqli $db;
 
+
+    protected static function getBindTypes(array $values): string {
+    return implode('', array_map(function ($val) {
+        if (is_int($val)) return 'i';
+        if (is_float($val)) return 'd';
+        if (is_null($val)) return 's'; // mysqli can't bind null directly
+        return 's';
+    }, $values));
+}
+
     public static function setDb(mysqli $mysqli){
         static::$db=$mysqli;
     }
@@ -43,7 +53,7 @@ abstract class Model{
     public static function create(array $values) {
         $columns = array_keys($values);
         $placeholders = implode(',', array_fill(0, count($columns), '?'));
-        $types = str_repeat('s', count($values)); 
+        $types = static::getBindTypes($values); 
 
         $sql = sprintf("INSERT INTO %s (%s) VALUES (%s)",
             static::$table,
@@ -68,7 +78,7 @@ abstract class Model{
             static::$primary_key
         );
 
-        $types = str_repeat('s', count($values)) . 'i'; 
+        $types = static::getBindTypes($values).'i';
         $params = array_values($values);
         $params[] = $id;
 
@@ -76,4 +86,5 @@ abstract class Model{
         $query->bind_param($types, ...$params);
         $query->execute();
     }
+
 }

@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("bookings-modal");
   const form = document.getElementById("bookings-form");
   const closeBtn = document.getElementById("close-modal");
+  document.getElementById("add-booking-btn").addEventListener("click", () => {
+  openModal(); // this will now trigger when the button is clicked
+});
 
   loadBookings();
 
@@ -95,8 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
         `http://localhost/wamp64_projects/Cinema/controllers/get_bookings.php?id=${bookingId}`
       );
 
-      if (response.data && response.data.bookings && response.data.bookings.length > 0) {
-        const booking = response.data.bookings[0];
+      if (response.data && response.data.bookings ) {
+        const booking = response.data.bookings;
         openModal(booking);
       }
     } catch (error) {
@@ -174,7 +177,7 @@ if (form.elements["id"].value) {
       const response = await axios.post(
         "http://localhost/wamp64_projects/Cinema/controllers/post_bookings.php",
         {
-          action,
+          action:mode,
           data: formData
         },
         {

@@ -17,8 +17,14 @@ if(!isset($_GET["id"])){
 }
 
 $id = $_GET["id"];
-$users = User::find( $id);
-$response["users"] = $users->toArray();
+$user = User::find($id);
 
+if ($user) {
+    $response["users"] = $user->toArray();
+} else {
+    $response["status"] = 404;
+    $response["message"] = "User not found";
+    $response["users"] = null;
+}
 echo json_encode($response);
 return;

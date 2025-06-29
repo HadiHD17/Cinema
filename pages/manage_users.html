@@ -24,7 +24,7 @@
 
     <main class="main-content">
       <h1>Manage Users</h1>
-      <button onclick="openModal()">Add New User</button>
+      <button id="add-user-btn">Add New User</button>
       <table>
         <thead>
           <tr>
@@ -33,7 +33,8 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Birthday</th>
-            <th>Password</th>
+            <th>Comm_preffered</th>
+            <th>Verified</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -48,11 +49,35 @@
       <h2>User Form</h2>
       <form id="users-form">
         <input type="hidden" name="id" />
-        <label>Full Name: <input name="full_name" required /></label>
-        <label>Email: <input type="email" name="email" required /></label>
-        <label>Phone: <input name="phone" required /></label>
-        <label>Birthday: <input type="date" name="BDay" required /></label>
-        <label>Password: <input type="password" name="password" required /></label>
+        <label>
+          Full Name:
+          <input name="full_name" required />
+        </label>
+        <label>
+          Email:
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          Phone:
+          <input name="phone" required />
+        </label>
+        <label>
+          Birthday:
+          <input type="date" name="BDay" required />
+        </label>
+        <label>
+          Communication Preference:
+          <select name="comm_pref" required>
+            <option value="">-- Select --</option>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="both">Both</option>
+          </select>
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" />
+        </label>
         <button type="submit">Save</button>
         <button type="button" id="close-modal">Cancel</button>
       </form>
