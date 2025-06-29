@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Manage Payments</title>
+  <title>Manage Snack Orders</title>
   <link rel="stylesheet" href="../styles/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script defer src="../scripts/manage_payments.js"></script>
+  <script defer src="../scripts/manage_snackorders.js"></script>
 </head>
 <body>
   <div class="admin-container">
@@ -17,48 +17,38 @@
       <a href="manage_showtimes.html">Manage Showtimes</a>
       <a href="manage_seats.html">Manage Seats</a>
       <a href="manage_bookings.html">Manage Bookings</a>
-      <a href="manage_payments.html" class="active">Manage Payments</a>
+      <a href="manage_payments.html">Manage Payments</a>
       <a href="manage_snacks.html">Manage Snacks</a>
-      <a href="manage_snackorders.html">Manage Snack Orders</a>
+      <a href="manage_snackorders.html" class="active">Manage Snack Orders</a>
     </aside>
 
     <main class="main-content">
-      <h1>Manage Payments</h1>
-      <button onclick="openModal()">Add Payment</button>
+      <h1>Manage Snack Orders</h1>
+      <button onclick="openModal()">Add Snack Order</button>
       <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Booking ID</th>
-            <th>Amount</th>
-            <th>Payment Method</th>
-            <th>Payer User ID</th>
-            <th>Payment Time</th>
+            <th>Snack ID</th>
+            <th>Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="payments-table-body"></tbody>
+        <tbody id="snackorders-table-body"></tbody>
       </table>
     </main>
   </div>
 
   <!-- Modal -->
-  <div id="payments-modal" class="modal hidden">
+  <div id="snackorders-modal" class="modal hidden">
     <div class="modal-content">
-      <h2>Payment Form</h2>
-      <form id="payments-form">
+      <h2>Snack Order Form</h2>
+      <form id="snackorders-form">
         <input type="hidden" name="id" />
         <label>Booking ID: <input name="booking_id" required /></label>
-        <label>Amount: <input type="number" step="0.01" name="amount" required /></label>
-        <label>Payment Method: 
-          <select name="payment_method">
-            <option value="card">Card</option>
-            <option value="cash">Cash</option>
-            <option value="wallet">Wallet</option>
-          </select>
-        </label>
-        <label>Payer User ID: <input name="payer_user_id" required /></label>
-        <label>Payment Time: <input type="datetime-local" name="payment_time" required /></label>
+        <label>Snack ID: <input name="snack_id" required /></label>
+        <label>Quantity: <input name="quantity" type="number" min="1" required /></label>
         <button type="submit">Save</button>
         <button type="button" id="close-modal">Cancel</button>
       </form>
