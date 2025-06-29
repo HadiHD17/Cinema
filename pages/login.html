@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cinema Login</title>
   <link rel="stylesheet" href="../styles/login.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="../scripts/login.js"></script>
 </head>
 <body>
   <div class="login-container">
     <h2>Login to Cinema</h2>
-    <form action="dashboard.html" method="get">
+    <form id="login-form">
       <div class="form-group">
         <label for="email">Email address</label>
         <input type="email" id="email" name="email" placeholder="you@example.com" required>
@@ -26,6 +28,7 @@
         </p>
       </div>
     </form>
+    <div id="error-msg" style="color:red;"></div>
   </div>
 </body>
 </html>

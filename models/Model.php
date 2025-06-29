@@ -11,8 +11,8 @@ abstract class Model{
         if (is_float($val)) return 'd';
         if (is_null($val)) return 's'; // mysqli can't bind null directly
         return 's';
-    }, $values));
-}
+       }, $values));
+    }
 
     public static function setDb(mysqli $mysqli){
         static::$db=$mysqli;
@@ -86,5 +86,21 @@ abstract class Model{
         $query->bind_param($types, ...$params);
         $query->execute();
     }
+
+     
+        public static function findByColumn(string $column, string $value){
+        $sql = sprintf("SELECT * FROM %s WHERE %s = ? LIMIT 1", static::$table, $column);
+        $stmt = static::$db->prepare($sql);
+        if (!$stmt) {
+        throw new Exception("Failed to prepare statement: " . static::$db->error);
+        }
+        $stmt->bind_param("s", $value);
+        $stmt->execute();
+        $data = $stmt->get_result()->fetch_assoc();
+        return $data ? new static($data) : null;
+    }
+
+    
+    
 
 }
