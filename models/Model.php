@@ -64,6 +64,8 @@ abstract class Model{
         $query = static::$db->prepare($sql);
         $query->bind_param($types, ...array_values($values));
         $query->execute();
+
+        return static::$db->insert_id; 
     }
 
     public static function update(int $id, array $values) {

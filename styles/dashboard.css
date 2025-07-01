@@ -9,13 +9,15 @@
 body {
   display: flex;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-color: #121212;
+  color: #f5f5f5;
+  overflow: hidden;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
-  background-color: #111;
+  width: 240px;
+  background-color: #000;
   color: #fff;
   padding: 30px 20px;
   display: flex;
@@ -27,23 +29,24 @@ body {
   font-size: 24px;
   margin-bottom: 30px;
   text-align: center;
+  color: #e50914;
 }
 
 .sidebar nav button {
   background: none;
   border: none;
-  color: #ddd;
+  color: #bbb;
   padding: 12px;
   text-align: left;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .sidebar nav button.active,
 .sidebar nav button:hover {
-  background-color: #444;
+  background-color: #e50914;
   color: #fff;
 }
 
@@ -52,11 +55,12 @@ body {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  background-color: #1e1e1e;
 }
 
 .main-content h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: #e50914;
 }
 
 /* Movies */
@@ -64,15 +68,22 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
 .movie-card {
   width: 250px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background-color: #000;
+  border: 1px solid #333;
+  border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(255,0,0,0.1);
+  color: #fff;
+  transition: transform 0.2s;
+}
+
+.movie-card:hover {
+  transform: scale(1.02);
 }
 
 .movie-card img {
@@ -86,26 +97,27 @@ body {
 .movie-card h3 {
   margin-bottom: 5px;
   font-size: 18px;
+  color: #e50914;
 }
 
 .movie-card p {
   font-size: 14px;
-  color: #444;
-  margin-bottom: 6px;
+  color: #ccc;
 }
 
 .movie-card button {
   margin-top: 10px;
   padding: 8px 12px;
-  background-color: #2196F3;
+  background-color: #e50914;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .movie-card button:hover {
-  background-color: #1976D2;
+  background-color: #c40811;
 }
 
 /* Showtimes inside movie card */
@@ -119,7 +131,8 @@ body {
 }
 
 .showtimes li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  color: #ccc;
 }
 
 /* Snacks */
@@ -127,16 +140,18 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
 .snack-card {
   width: 180px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: #000;
+  border: 1px solid #333;
   border-radius: 8px;
   padding: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(255,0,0,0.1);
   text-align: center;
+  color: #fff;
 }
 
 .snack-card img {
@@ -149,18 +164,19 @@ body {
 
 .snack-card h4 {
   font-size: 16px;
+  color: #e50914;
   margin-bottom: 5px;
 }
 
 .snack-card p {
   font-size: 14px;
-  color: #444;
+  color: #ccc;
   margin-bottom: 10px;
 }
 
 .snack-card button {
   padding: 6px 12px;
-  background-color: #FF5722;
+  background-color: #e50914;
   color: white;
   border: none;
   border-radius: 5px;
@@ -168,13 +184,14 @@ body {
 }
 
 .snack-card button:hover {
-  background-color: #E64A19;
+  background-color: #c40811;
 }
 
 /* Account details */
 #content p {
   margin-bottom: 10px;
   font-size: 16px;
+  color: #ccc;
 }
 
 /* Seats Booking Page */
@@ -183,6 +200,7 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
+  justify-content: center;
 }
 
 .seat {
@@ -193,6 +211,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  font-size: 16px;
 }
 
 .seat-available {
@@ -201,8 +220,8 @@ body {
 }
 
 .seat-booked {
-  background-color: #ccc;
-  color: #666;
+  background-color: #666;
+  color: #ddd;
   cursor: not-allowed;
 }
 
@@ -211,6 +230,7 @@ body {
   display: flex;
   gap: 15px;
   align-items: center;
+  justify-content: center;
 }
 
 .seat-legend span {
@@ -219,20 +239,52 @@ body {
   display: inline-block;
   border-radius: 3px;
 }
+.seat-selected {
+  background-color: #d32f2f;
+  color: white;
+}
 
-/* Responsive tweaks */
+
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .movie-card, .snack-card {
+    width: 45%;
+  }
+}
+
 @media screen and (max-width: 768px) {
-  .movie-grid, .snack-grid {
+  body {
     flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
+    padding: 15px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .sidebar nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .main-content {
+    padding: 20px;
   }
 
   .movie-card, .snack-card {
     width: 90%;
   }
-
-  .sidebar {
-    width: 180px;
-  }
 }
-

@@ -1,4 +1,4 @@
-const userId = new URLSearchParams(window.location.search).get('id') || 1;
+const userId = new URLSearchParams(window.location.search).get('id');
 
 document.addEventListener('DOMContentLoaded', () => {
   const content = document.getElementById('content');
@@ -83,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.bookSeat = function(showtimeId) {
-    window.location.href = `book_seat.html?showtime_id=${showtimeId}&user_id=${userId}`;
+    const currentUserId = new URLSearchParams(window.location.search).get('id');
+
+    window.location.href = `../pages/book_seat.html?showtime_id=${showtimeId}&user_id=${currentUserId}`;
   };
 
   async function loadSnacks() {
@@ -111,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.orderSnack = function(snackId) {
+     const userId = new URLSearchParams(window.location.search).get('id');
     const quantity = parseInt(prompt("Enter quantity to order:"), 10);
     if (!quantity || quantity <= 0) return alert('Invalid quantity');
 
