@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Showtimes</title>
+  <link rel="stylesheet" href="../styles/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="../scripts/manage_showtimes.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <a href="admin.html">Dashboard</a>
+      <a href="manage_users.html">Manage Users</a>
+      <a href="manage_movies.html">Manage Movies</a>
+      <a href="manage_showtimes.html" class="active">Manage Showtimes</a>
+      <a href="manage_seats.html">Manage Seats</a>
+      <a href="manage_bookings.html">Manage Bookings</a>
+      <a href="manage_payments.html">Manage Payments</a>
+      <a href="manage_snacks.html">Manage Snacks</a>
+      <a href="manage_snackorders.html">Manage Snack Orders</a>
+    </aside>
+
+    <main class="main-content">
+      <h1>Manage Showtimes</h1>
+      <button id="add-showtime-btn">Add New Showtime</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Movie ID</th>
+            <th>Auditorium</th>
+            <th>Show Date</th>
+            <th>Show Time</th>
+            <th>Is Peak</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="showtimes-table-body"></tbody>
+      </table>
+    </main>
+  </div>
+
+  
+  <div id="showtimes-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Showtime Form</h2>
+      <form id="showtimes-form">
+        <input type="hidden" name="id" />
+        <label>Movie ID: <input name="movie_id" required /></label>
+        <label>Auditorium: <input name="auditorium" required /></label>
+        <label>Show Date: <input type="date" name="show_date" required /></label>
+        <label>Show Time: <input type="time" name="show_time" required /></label>
+        <label>Is Peak: 
+          <select name="is_peak">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </label>
+        <button type="submit">Save</button>
+        <button type="button" id="close-modal">Cancel</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

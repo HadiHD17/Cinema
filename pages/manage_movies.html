@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Movies</title>
+  <link rel="stylesheet" href="../styles/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="../scripts/manage_movies.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <nav>
+        <a href="admin.html">Dashboard</a>
+        <a href="manage_users.html">Manage Users</a>
+        <a href="manage_movies.html" class="active">Manage Movies</a>
+        <a href="manage_showtimes.html">Manage Showtimes</a>
+        <a href="manage_seats.html">Manage Seats</a>
+        <a href="manage_bookings.html">Manage Bookings</a>
+        <a href="manage_payments.html">Manage Payments</a>
+        <a href="manage_snacks.html">Manage Snacks</a>
+        <a href="manage_snackorders.html">Manage Snack Orders</a>
+      </nav>
+    </aside>
+
+    
+    <main class="main-content">
+      <h1>Manage Movies</h1>
+      <button id="add-movie-btn">Add New Movie</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Genre</th>
+            <th>Age Rating</th>
+            <th>Trailer</th>
+            <th>Cast</th>
+            <th>Release</th>
+            <th>End</th>
+            <th>Poster</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="movies-table-body"></tbody>
+      </table>
+    </main>
+  </div>
+
+  
+  <div id="movies-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Movie Form</h2>
+      <form id="movies-form">
+        <input type="hidden" name="id" />
+        
+        <label>Title:
+          <input type="text" name="title" required />
+        </label>
+        
+        <label>Description:
+          <textarea name="description" required></textarea>
+        </label>
+        
+        <label>Genre:
+          <input type="text" name="genre" required />
+        </label>
+        
+        <label>Age Rating:
+          <input type="text" name="age_rating" required />
+        </label>
+        
+        <label>Trailer URL:
+          <input type="url" name="trailer_url" required />
+        </label>
+        
+        <label>Cast:
+          <input type="text" name="cast" required />
+        </label>
+        
+        <label>Release Date:
+          <input type="date" name="release_date" required />
+        </label>
+        
+        <label>End Date:
+          <input type="date" name="end_date" required />
+        </label>
+        
+        <label>Poster Image URL:
+          <input type="text" name="poster_image" required />
+        </label>
+
+        <div class="modal-buttons">
+          <button type="submit">Save</button>
+          <button type="button" id="close-modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

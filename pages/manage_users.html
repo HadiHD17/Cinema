@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Users</title>
+  <link rel="stylesheet" href="../styles/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="../scripts/manage_users.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <a href="admin.html">Dashboard</a>
+      <a href="manage_users.html" class="active">Manage Users</a>
+      <a href="manage_movies.html">Manage Movies</a>
+      <a href="manage_showtimes.html">Manage Showtimes</a>
+      <a href="manage_seats.html">Manage Seats</a>
+      <a href="manage_bookings.html">Manage Bookings</a>
+      <a href="manage_payments.html">Manage Payments</a>
+      <a href="manage_snacks.html">Manage Snacks</a>
+      <a href="manage_snackorders.html">Manage Snack Orders</a>
+    </aside>
+
+    <main class="main-content">
+      <h1>Manage Users</h1>
+      <button id="add-user-btn">Add New User</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Birthday</th>
+            <th>Comm_preffered</th>
+            <th>Verified</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body"></tbody>
+      </table>
+    </main>
+  </div>
+
+  
+  <div id="users-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>User Form</h2>
+      <form id="users-form">
+        <input type="hidden" name="id" />
+        <label>
+          Full Name:
+          <input name="full_name" required />
+        </label>
+        <label>
+          Email:
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          Phone:
+          <input name="phone" required />
+        </label>
+        <label>
+          Birthday:
+          <input type="date" name="BDay" required />
+        </label>
+        <label>
+          Communication Preference:
+          <select name="comm_pref" required>
+            <option value="">-- Select --</option>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="both">Both</option>
+          </select>
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" />
+        </label>
+        <button type="submit">Save</button>
+        <button type="button" id="close-modal">Cancel</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
