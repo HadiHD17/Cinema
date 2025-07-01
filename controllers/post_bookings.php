@@ -34,10 +34,10 @@ try {
         }
     }
 
-    // Create booking and get inserted ID
+    
     $booking_id = Booking::create($data);
 
-    // Return only booking ID for now (simpler for frontend)
+    
     $response['message'] = 'Booking created successfully';
     $response['data'] = ['id' => $booking_id];
     break;

@@ -21,7 +21,7 @@ if (!$booking_id || !$seat_id) {
 }
 
 try {
-    // Insert booking_seat record
+    
     $stmt = $mysqli->prepare("INSERT INTO booking_seats (booking_id, seat_id) VALUES (?, ?)");
     if (!$stmt) throw new Exception($mysqli->error);
 
@@ -29,7 +29,7 @@ try {
     $stmt->execute();
     $stmt->close();
 
-    // Update seat status to booked
+    
     $stmt2 = $mysqli->prepare("UPDATE seats SET status = 'booked' WHERE id = ?");
     if (!$stmt2) throw new Exception($mysqli->error);
 

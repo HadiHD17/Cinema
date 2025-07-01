@@ -3,16 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("seats-modal");
   const form = document.getElementById("seats-form");
   const closeBtn = document.getElementById("close-modal");
-  const addBtn = document.getElementById("add-seat-btn"); // make sure you have this button in your HTML
+  const addBtn = document.getElementById("add-seat-btn"); 
 
-  console.log("✅ Seats script running");
-  console.log("📍 Add button:", addBtn);
+ 
 
   loadSeats();
 
   if (addBtn) {
     addBtn.addEventListener("click", () => {
-      console.log("🟢 Add Seat clicked");
+      
       openModal();
     });
   }
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 if (mode === "update") {
-  seatData.id = form.elements.id.value; // include id only when updating
+  seatData.id = form.elements.id.value; 
 }
 
     try {

@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const seatsByRow = {};
 
-    // Group seats by row (first char of seat_label)
+    
     seats.forEach(seat => {
       const row = seat.seat_label.charAt(0).toUpperCase();
       if (!seatsByRow[row]) seatsByRow[row] = [];
       seatsByRow[row].push(seat);
     });
 
-    // Sort seats within each row by the numeric part of seat_label
+    
     for (const row in seatsByRow) {
       seatsByRow[row].sort((a, b) => {
         const aNum = parseInt(a.seat_label.slice(1)) || 0;
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    // Build HTML for seating layout
+    
     let html = '<div class="screen">Screen</div>';
     for (const row in seatsByRow) {
       html += `<div class="seat-row"><span class="row-label">${row}</span>`;
@@ -55,14 +55,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       html += '</div>';
     }
 
-    // Add Confirm Booking button
+    
     html += `
       <button id="confirm-booking-btn" style="margin-top: 20px; padding: 12px 20px; font-size: 16px; cursor: pointer;">
         Confirm Booking
       </button>
     `;
 
-    // Add seat legend
+    
     html += `
       <div class="seat-legend" style="margin-top: 15px; justify-content: center;">
         <span class="seat seat-available"></span> Available
@@ -78,25 +78,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     seatGrid.innerHTML = '<p>Error loading seats.</p>';
   }
 
-  // Toggle seat selection function
+  
   window.toggleSeatSelection = function(seatLabel, seatId, button) {
-    if (button.classList.contains('seat-booked')) return; // Ignore booked seats
+    if (button.classList.contains('seat-booked')) return; 
 
     const index = selectedSeats.findIndex(s => s.id === seatId);
     if (index > -1) {
-      // Deselect seat
+      
       selectedSeats.splice(index, 1);
       button.classList.remove('seat-selected');
       button.classList.add('seat-available');
     } else {
-      // Select seat
+      
       selectedSeats.push({ id: seatId, label: seatLabel });
       button.classList.remove('seat-available');
       button.classList.add('seat-selected');
     }
   };
 
-  // Confirm booking button click handler
+  
   seatGrid.addEventListener('click', async (e) => {
     if (e.target && e.target.id === 'confirm-booking-btn') {
       if (selectedSeats.length === 0) {
@@ -109,13 +109,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       try {
-        // 1. Create booking (adjust total_price as needed)
+        
         const bookingRes = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_bookings.php', {
           action: "create",
           data: {
             user_id: userId,
             showtime_id: showtimeId,
-            total_price: selectedSeats.length * 10, // Example price per seat
+            total_price: selectedSeats.length * 10, 
             status: "confirmed"
           }
         });
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bookingId = bookingRes.data?.data?.id;
         if (!bookingId) throw new Error("Booking ID not returned");
 
-        // 2. Book each seat
+        
         for (const seat of selectedSeats) {
           await axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_booking_seats.php', {
             booking_id: bookingId,
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         alert('Seats booked successfully!');
 
-        // Update UI: mark seats booked & disable
+        
         selectedSeats.forEach(seat => {
           const btns = document.querySelectorAll('.seat');
           btns.forEach(btn => {
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         selectedSeats = [];
 
-        // Redirect after 2 seconds
+        
         setTimeout(() => {
           window.location.href = `dashboard.html?id=${userId}`;
         }, 2000);

@@ -2,7 +2,7 @@
 require_once("../connection/connection.php");
 require_once("../models/User.php");
 
-header('Content-Type: application/json');
+
 
 User::setDb($mysqli);
 
@@ -20,7 +20,7 @@ if (!$input) {
     exit;
 }
 
-// Basic validation
+
 $required = ['full_name', 'email', 'phone', 'BDay', 'password','comm_pref'];
 foreach ($required as $field) {
     if (empty($input[$field])) {
@@ -29,17 +29,17 @@ foreach ($required as $field) {
     }
 }
 
-// Check if email already exists
+
 $existingUser = User::findByColumn('email', $input['email']);
 if ($existingUser) {
     echo json_encode(['status' => 'error', 'message' => 'Email already registered']);
     exit;
 }
 
-// Hash the password
+
 $input['password'] = password_hash($input['password'], PASSWORD_DEFAULT);
 
-// Create user
+
 User::create($input);
 
 echo json_encode(['status' => 'success', 'message' => 'User registered successfully']);

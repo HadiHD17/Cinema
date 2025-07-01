@@ -1,4 +1,4 @@
-console.log("✅ Showtimes script is running!");
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById("showtimes-table-body");
@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-showtime-btn");
 
-  console.log("📍 Add button:", addBtn);
+  
 
   loadShowtimes();
 
   addBtn.addEventListener("click", () => {
-    console.log("🟢 Add button clicked");
+    
     openModal();
   });
 

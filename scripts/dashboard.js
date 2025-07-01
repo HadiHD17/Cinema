@@ -165,6 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  // Initial load
+  
   loadMovies();
 });

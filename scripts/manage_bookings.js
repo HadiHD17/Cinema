@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("bookings-form");
   const closeBtn = document.getElementById("close-modal");
   document.getElementById("add-booking-btn").addEventListener("click", () => {
-  openModal(); // this will now trigger when the button is clicked
+  openModal(); 
 });
 
   loadBookings();

@@ -64,7 +64,7 @@ try {
         throw new InvalidArgumentException("Seat ID is required for deletion");
     }
 
-    // Assuming you have Seat::delete() method, NOT Booking::delete()
+    
     Seat::delete($deleteId);
     $response['message'] = 'Seat deleted successfully';
     break;

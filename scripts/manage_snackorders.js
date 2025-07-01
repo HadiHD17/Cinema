@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 if (mode === "update") {
-  orderData.id = form.id.value; // Only add id when updating
+  orderData.id = form.id.value; 
 }
     try {
       const response = await axios.post(
@@ -127,7 +127,7 @@ if (mode === "update") {
     form.setAttribute("data-mode", order.id ? "update" : "create");
   };
 
-  // Optional: If you want a global button to open the modal for creating new snack orders
+  
   const addBtn = document.getElementById("add-snackorder-btn");
   if (addBtn) {
     addBtn.addEventListener("click", () => openModal());

@@ -5,16 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-payment-btn");
 
-  // Load existing payments
+  
   loadPayments();
 
-  // Open modal for creating
+  
   addBtn.addEventListener("click", () => openModal());
 
-  // Close modal
+  
   closeBtn.onclick = () => modal.classList.add("hidden");
 
-  // Form submit
+  
   form.onsubmit = (e) => {
     e.preventDefault();
     const mode = form.getAttribute("data-mode");
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  // Load data
+  
   function loadPayments() {
     axios
       .get("http://localhost/wamp64_projects/Cinema/controllers/get_payments.php")
@@ -84,18 +84,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Format ISO to readable
+  
   function formatForDisplay(datetime) {
     return new Date(datetime).toLocaleString();
   }
 
-  // Format for datetime-local input
+  
   function formatForInput(datetime) {
     const d = new Date(datetime);
     return d.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
   }
 
-  // Open modal with data
+  
   window.openModal = function (payment = {}) {
     modal.classList.remove("hidden");
 
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.setAttribute("data-mode", payment.id ? "update" : "create");
   };
 
-  // Add edit/delete listeners
+  
   function attachListeners() {
     document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {

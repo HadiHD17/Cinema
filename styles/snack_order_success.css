@@ -42,7 +42,7 @@ button:hover {
   background-color: #c40811;
 }
 
-/* Responsive */
+
 @media (max-width: 480px) {
   body {
     margin-top: 60px;

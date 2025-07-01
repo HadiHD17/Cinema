@@ -9,7 +9,7 @@ abstract class Model{
     return implode('', array_map(function ($val) {
         if (is_int($val)) return 'i';
         if (is_float($val)) return 'd';
-        if (is_null($val)) return 's'; // mysqli can't bind null directly
+        if (is_null($val)) return 's'; 
         return 's';
        }, $values));
     }

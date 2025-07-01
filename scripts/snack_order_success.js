@@ -1,4 +1,10 @@
-document.getElementById('back-btn').addEventListener('click', () => {
-  // Adjust the URL below to your snacks page or dashboard as needed
-  window.location.href = 'dashboard.html?user_id=1';
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const back=document.getElementById('back-btn');
+  const userId = params.get('user_id');
+ 
+back.addEventListener('click', () => {
+  
+  window.location.href = `dashboard.html?id=${userId}`;
+});
 });

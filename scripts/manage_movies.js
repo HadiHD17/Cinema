@@ -1,4 +1,3 @@
-console.log("✅ Script is running!");
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById("movies-table-body");
   const modal = document.getElementById("movies-modal");
@@ -6,11 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-movie-btn");
   const BASE_URL = "http://localhost/wamp64_projects/Cinema/controllers";
-console.log("📍 Add button:", addBtn);
-  // Load movies initially
+
   loadMovies();
   addBtn.addEventListener("click", () => {
-    console.log("🟢 Add button clicked");
+    
     openModal();
   });
 

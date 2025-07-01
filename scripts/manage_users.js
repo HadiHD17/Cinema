@@ -1,4 +1,4 @@
-console.log("✅ Script is running!");
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById("users-table-body");
@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-user-btn");
 
-  console.log("📍 Add button:", addBtn);
+  
 
   loadUsers();
 
   addBtn.addEventListener("click", () => {
-    console.log("🟢 Add button clicked");
+    
     openModal();
   });
 

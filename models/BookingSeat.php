@@ -35,11 +35,11 @@ class BookingSeat extends Model{
     }
 
      public function toArray(){
-        return [     "id" => $this->id,
+         return [   
+        "id" => $this->id,
         "seat_id" => $this->seat_id,
         "booking_id" => $this->booking_id,
-
-];
+    ];
     }
 
 }
