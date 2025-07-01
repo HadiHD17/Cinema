@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once("../models/Admin.php");
 require_once("../models/User.php");
 require_once("../connection/connection.php");
@@ -28,21 +27,25 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 $email = $input['email'] ?? '';
 $password = $input['password'] ?? '';
 
+// Check admin first
 $admin = Admin::findByColumn('email', $email);
 if ($admin && password_verify($password, $admin->getPassword())) {
-    $_SESSION['user_type'] = 'admin';
-    $_SESSION['user_id'] = $admin->getId();
-
-    echo json_encode(['status' => 'success', 'role' => 'admin']);
+    echo json_encode([
+        'status' => 'success',
+        'role' => 'admin',
+        'id' => $admin->getId()
+    ]);
     exit;
 }
 
+// Check user
 $user = User::findByColumn('email', $email);
 if ($user && password_verify($password, $user->getPassword())) {
-    $_SESSION['user_type'] = 'user';
-    $_SESSION['user_id'] = $user->getId();
-
-    echo json_encode(['status' => 'success', 'role' => 'user']);
+    echo json_encode([
+        'status' => 'success',
+        'role' => 'user',
+        'id' => $user->getId()
+    ]);
     exit;
 }
 

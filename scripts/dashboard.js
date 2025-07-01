@@ -1,4 +1,4 @@
-const userId = new URLSearchParams(window.location.search).get('user_id') || 1;
+const userId = new URLSearchParams(window.location.search).get('id') || 1;
 
 document.addEventListener('DOMContentLoaded', () => {
   const content = document.getElementById('content');

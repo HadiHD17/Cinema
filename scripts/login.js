@@ -13,21 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/login.php', {
         email,
         password
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      }).then(response=>{
+          
+      
 
-      const data = response.data;
+      const {status,role,id} = response.data;
 
-      if (data.status === 'success') {
-        if (data.role === 'admin') {
-          window.location.href = '../pages/admin.html';
-        } else if (data.role === 'user') {
-          window.location.href = '../pages/dashboard.html';
+      if (status === 'success') {
+        if (role === 'admin') {
+          window.location.href = `../pages/admin.html?id=${id}`;
+        } else if (role === 'user') {
+          window.location.href = `../pages/dashboard.html?id=${id}`;
         }
       } else {
         errorMsg.textContent = data.message || 'Login failed';
       }
+    })
     } catch (err) {
       console.error(err);
       errorMsg.textContent = 'Server error or network problem';
