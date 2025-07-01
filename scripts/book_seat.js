@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const showtimeId = params.get('showtime_id');
-  const userId = params.get('user_id');
+  const userId = params.get('id');
   const seatGrid = document.getElementById('seats-grid');
 
   if (!showtimeId || !userId) {

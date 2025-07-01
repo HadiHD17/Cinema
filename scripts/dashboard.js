@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.bookSeat = function(showtimeId) {
     const currentUserId = new URLSearchParams(window.location.search).get('id');
 
-    window.location.href = `../pages/book_seat.html?showtime_id=${showtimeId}&user_id=${currentUserId}`;
+    window.location.href = `../pages/book_seat.html?showtime_id=${showtimeId}&id=${currentUserId}`;
   };
 
   async function loadSnacks() {
@@ -113,16 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.orderSnack = function(snackId) {
-     const userId = new URLSearchParams(window.location.search).get('id');
+    const userId = new URLSearchParams(window.location.search).get('id');
     const quantity = parseInt(prompt("Enter quantity to order:"), 10);
-    if (!quantity || quantity <= 0) return alert('Invalid quantity');
+    if (!quantity || quantity <= 0) 
+      return alert('Invalid quantity');
 
     axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_snackorders.php', {
       user_id: userId,
       snack_id: snackId,
       quantity
     }).then(() => {
-      window.location.href = 'snack_order_success.html';
+      window.location.href = `snack_order_success.html?id=${userId}`;
     }).catch(err => {
       alert('Failed to place snack order.');
       console.error(err);
