@@ -57,7 +57,7 @@ try {
             break;
 
         case 'delete':
-    // Safely get ID from $data['id']
+    
     $deleteId = $data['id'] ?? null;
 
     if (empty($deleteId)) {

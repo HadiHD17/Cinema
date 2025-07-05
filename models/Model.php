@@ -91,7 +91,7 @@ abstract class Model{
 
      
         public static function findByColumn(string $column, string $value){
-        $sql = sprintf("SELECT * FROM %s WHERE %s = ? LIMIT 1", static::$table, $column);
+        $sql = sprintf("SELECT * FROM %s WHERE %s = ? ", static::$table, $column);
         $stmt = static::$db->prepare($sql);
         if (!$stmt) {
         throw new Exception("Failed to prepare statement: " . static::$db->error);
