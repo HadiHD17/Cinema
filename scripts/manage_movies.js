@@ -6,18 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.getElementById("add-movie-btn");
   const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
-  // Load all movies when page loads
+  
   loadMovies();
 
-  // Open modal for new movie
+  
   addBtn.addEventListener("click", () => {
-    openModal(); // no movie passed → empty form
+    openModal(); 
   });
 
-  // Close modal
+  
   closeBtn.onclick = () => modal.classList.add("hidden");
 
-  // Form submit handler (create or update)
+  
   form.onsubmit = async (e) => {
     e.preventDefault();
 
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Load all movies
+  
   async function loadMovies() {
     try {
       const res = await axios.get(`${BASE_URL}/All_Movies`);
@@ -96,9 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Attach event listeners for edit and delete
+  
   function attachListeners() {
-    // Edit
+    
     document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Delete
+    
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Open modal for create or edit
+
   window.openModal = function (movie = {}) {
     modal.classList.remove("hidden");
     form.reset();
