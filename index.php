@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/connection/connection.php"); 
+
 
 require(__DIR__ . "/routes/api.php");
 

@@ -81,11 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${user.id}</td>
-          <td>${escapeHtml(user.full_name)}</td>
-          <td>${escapeHtml(user.email)}</td>
-          <td>${escapeHtml(user.phone)}</td>
-          <td>${escapeHtml(user.BDay)}</td>
-          <td>${escapeHtml(user.comm_pref)}</td>
+          <td>${(user.full_name)}</td>
+          <td>${(user.email)}</td>
+          <td>${(user.phone)}</td>
+          <td>${(user.BDay)}</td>
+          <td>${(user.comm_pref)}</td>
           <td>${user.is_verified ? "Yes" : "No"}</td>
           <td>
             <button class="edit-btn" data-id="${user.id}">Edit</button>
