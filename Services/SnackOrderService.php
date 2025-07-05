@@ -1,6 +1,6 @@
 <?php 
 
-class UserService {
+class SnackOrderService {
 
     public static function snackordersToArray($snackorders_db){
         $results = [];

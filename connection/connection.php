@@ -1,5 +1,5 @@
 <?php
-require_once("../models/Model.php");
+require_once(__DIR__."/../models/Model.php");
 $host = 'localhost';
 $dbname = 'cinemadb';
 $username = 'root';
@@ -11,4 +11,3 @@ if(!$mysqli){
     die("connection failed".mysqli_connect_error());
 }
 Model::setDb($mysqli);
-?>

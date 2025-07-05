@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const response = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/Register', data, {
+      const response = await axios.post('http://localhost/wamp64_projects/Cinema/Register', data, {
         headers: { 'Content-Type': 'application/json' }
       });
 

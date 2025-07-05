@@ -10,14 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = form.password.value.trim();
 
     try {
-      const response = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/Login', {
+      const response = await axios.post('http://localhost/wamp64_projects/Cinema/Login', {
         email,
         password
-      }).then(response=>{
-          
-      
+      });
 
-      const {status,role,id} = response.data;
+      const data=response.data;
+      console.log("Backend response:", data);
+
+      const {status,role,id} = data;
+
 
       if (status === 'success') {
         if (role === 'admin') {
@@ -28,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         errorMsg.textContent = data.message || 'Login failed';
       }
-    })
     } catch (err) {
       console.error(err);
       errorMsg.textContent = 'Server error or network problem';

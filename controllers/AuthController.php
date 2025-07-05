@@ -28,31 +28,30 @@ class AuthController{
     }
 
     public function login(){
-        try{
-            $json = file_get_contents('php://input');
-            $input = json_decode($json, true);
-            $admin=AuthController::checkAdmin();
-            $user=AuthController::checkUser();
-            if($admin){
-                echo ResponseService::success_response([
-                    'status' => 'success',
-                    'role' => 'admin',
-                    'id' => $admin->getId()
-                ]);
-                exit;
-            }
-            if($user){
-                echo ResponseService::success_response([
-                    'status' => 'success',
-                    'role' => 'user',
-                    'id' => $user->getId()
-                ]);
-                exit;
-            }
-        }catch(Throwable $e){
-            http_response_code(401);
-            echo ResponseService::error_response("unathorized ".$e->getMessage());
+        $admin=AuthController::checkAdmin();
+        $user=AuthController::checkUser();
+        if($admin){
+            echo json_encode([
+                'status' => 'success',
+                'role' => 'admin',
+                'id' => $admin->getId()
+            ]);
+            exit;
         }
+        if($user){
+            echo json_encode([
+                'status' => 'success',
+                'role' => 'user',
+                'id' => $user->getId()
+            ]);
+            exit;
+        }
+            http_response_code(401);
+            echo json_encode([
+            'status' => 'error',
+            'message' => 'Invalid email or password'
+        ]);
+        exit;
     }
 
     public function register(){
@@ -73,10 +72,10 @@ class AuthController{
         }
         $input['password']=password_hash($input['password'], PASSWORD_DEFAULT);
         User::create($input);
-        echo ResponseService::success_response(['status' => 'success', 'message' => 'User registered successfully']);
+        echo json_encode(['status' => 'success', 'message' => 'User registered successfully']);
         }catch(Throwable $e){
             http_response_code(401);
-            echo ResponseService::error_response("unathorized ".$e->getMessage()); 
+            echo json_encode("unathorized ".$e->getMessage()); 
         }
     }
 }
