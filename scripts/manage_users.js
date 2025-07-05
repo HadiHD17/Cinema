@@ -1,5 +1,3 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.getElementById("users-table-body");
   const modal = document.getElementById("users-modal");
@@ -8,85 +6,86 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.getElementById("add-user-btn");
 
   
-
   loadUsers();
 
+  
   addBtn.addEventListener("click", () => {
-    
     openModal();
   });
 
-  closeBtn.onclick = () => modal.classList.add("hidden");
+  
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
 
-  form.onsubmit = async (e) => {
+  
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const mode = form.getAttribute("data-mode");
-    const id = form.elements.id.value.trim();
 
+    const id = form.elements["id"].value.trim();
+
+    
     const userData = {
-      full_name: form.elements.full_name.value,
-      email: form.elements.email.value,
-      phone: form.elements.phone.value,
-      BDay: form.elements.BDay.value,
-      comm_pref: form.elements.comm_pref.value
+      full_name: form.elements["full_name"].value.trim(),
+      email: form.elements["email"].value.trim(),
+      phone: form.elements["phone"].value.trim(),
+      BDay: form.elements["BDay"].value.trim(),
+      comm_pref: form.elements["comm_pref"].value.trim(),
     };
 
-    if (mode === "update") {
-      if (!id) {
-        alert("User ID is required for update");
-        return;
-      }
-      userData.id = parseInt(id, 10);
-    }
-
-    const password = form.elements.password.value;
+    const password = form.elements["password"].value;
     if (password) {
       userData.password = password;
     }
 
+    
+    let url;
+    if (id) {
+      url = "http://localhost/wamp64_projects/Cinema/Update_User";
+      userData.id = parseInt(id, 10);
+    } else {
+      url = "http://localhost/wamp64_projects/Cinema/Create_User";
+    }
+
     try {
       const response = await axios.post(
-        "http://localhost/wamp64_projects/Cinema/controllers/post_users.php",
-        {
-          action: mode,
-          data: userData
-        },
-        {
-          headers: { "Content-Type": "application/json" }
-        }
+        url,
+        { data: userData },
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      if (response.data.status === 200) {
+      if (response.data && response.data.status === 200) {
         alert("User saved successfully!");
         modal.classList.add("hidden");
+        form.reset();
         loadUsers();
       } else {
-        console.log("❌ Server response:", response.data);
         throw new Error(response.data.message || "Save failed");
       }
     } catch (error) {
       alert("Error: " + error.message);
       console.error(error);
     }
-  };
+  });
 
+ 
   async function loadUsers() {
     try {
       const response = await axios.get(
-        "http://localhost/wamp64_projects/Cinema/controllers/get_users.php"
+        "http://localhost/wamp64_projects/Cinema/All_Users"
       );
-      const data = response.data.users;
+      const users = response.data.payload || [];
       body.innerHTML = "";
 
-      data.forEach((user) => {
+      users.forEach((user) => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${user.id}</td>
-          <td>${user.full_name}</td>
-          <td>${user.email}</td>
-          <td>${user.phone}</td>
-          <td>${user.BDay}</td>
-          <td>${user.comm_pref}</td>
+          <td>${escapeHtml(user.full_name)}</td>
+          <td>${escapeHtml(user.email)}</td>
+          <td>${escapeHtml(user.phone)}</td>
+          <td>${escapeHtml(user.BDay)}</td>
+          <td>${escapeHtml(user.comm_pref)}</td>
           <td>${user.is_verified ? "Yes" : "No"}</td>
           <td>
             <button class="edit-btn" data-id="${user.id}">Edit</button>
@@ -99,23 +98,27 @@ document.addEventListener("DOMContentLoaded", () => {
       attachListeners();
     } catch (error) {
       console.error("Failed to load users:", error);
+      alert("Failed to load users");
     }
   }
 
+  
   function attachListeners() {
     document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const userId = btn.getAttribute("data-id");
+        const id = btn.getAttribute("data-id");
         try {
           const res = await axios.get(
-            `http://localhost/wamp64_projects/Cinema/controllers/get_users.php?id=${userId}`
+            `http://localhost/wamp64_projects/Cinema/User?id=${id}`
           );
-          if (res.data && res.data.users) {
-            openModal(res.data.users);
+          if (res.data && res.data.payload) {
+            openModal(res.data.payload);
+          } else {
+            alert("Failed to load user data for editing");
           }
         } catch (err) {
-          
           console.error("Edit error:", err);
+          alert("Error loading user data");
         }
       });
     });
@@ -126,16 +129,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (confirm("Are you sure you want to delete this user?")) {
           try {
             const res = await axios.post(
-              "http://localhost/wamp64_projects/Cinema/controllers/post_users.php",
-              {
-                action: "delete",
-                data: { id }
-              },
-              {
-                headers: { "Content-Type": "application/json" }
-              }
+              "http://localhost/wamp64_projects/Cinema/Delete_User",
+              { id: parseInt(id, 10) },
+              { headers: { "Content-Type": "application/json" } }
             );
-            if (res.data.status === 200) {
+            if (res.data && res.data.status === 200) {
+              alert("User deleted successfully!");
               loadUsers();
             } else {
               throw new Error(res.data.message || "Delete failed");
@@ -149,17 +148,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  
   window.openModal = function (user = {}) {
     modal.classList.remove("hidden");
 
-    form.elements.id.value = user.id || "";
-    form.elements.full_name.value = user.full_name || "";
-    form.elements.email.value = user.email || "";
-    form.elements.phone.value = user.phone || "";
-    form.elements.BDay.value = user.BDay || "";
-    form.elements.comm_pref.value = user.comm_pref || "";
-    form.elements.password.value = "";
-
-    form.setAttribute("data-mode", user.id ? "update" : "create");
+    form.elements["id"].value = user.id || "";
+    form.elements["full_name"].value = user.full_name || "";
+    form.elements["email"].value = user.email || "";
+    form.elements["phone"].value = user.phone || "";
+    form.elements["BDay"].value = user.BDay || "";
+    form.elements["comm_pref"].value = user.comm_pref || "";
+    form.elements["password"].value = ""; 
   };
+
+
 });

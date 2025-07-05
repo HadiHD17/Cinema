@@ -10,7 +10,6 @@ require_once(__DIR__."/../models/Seat.php");
 require_once(__DIR__."/../models/Showtime.php");
 require_once(__DIR__."/../models/SnackOrder.php");
 require_once(__DIR__."/../models/Snack.php");
-require_once(__DIR__."/../models/User.php");
 require_once(__DIR__."/../services/ResponseService.php");
 require_once(__DIR__."/../services/UserService.php");
 require_once(__DIR__."/../services/MovieService.php");
