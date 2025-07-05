@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = form.password.value.trim();
 
     try {
-      const response = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/login.php', {
+      const response = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/Login', {
         email,
         password
       }).then(response=>{

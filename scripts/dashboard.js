@@ -158,14 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
   function logout() {
-    axios.post('http://localhost/wamp64_projects/Cinema/controllers/logout.php')
-      .then(() => window.location.href = '../index.html')
-      .catch(err => {
-        alert('Logout failed.');
-        console.error(err);
-      });
+      window.location.href =('../index.html');
   }
-
-  
   loadMovies();
 });

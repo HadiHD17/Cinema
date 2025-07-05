@@ -52,7 +52,7 @@ $apis=[
     '/Update_SeatBooking?{id}' => ['controller'=>'BookSeatController', 'method'=>'UpdateSeatBooking'],
     '/Create_SeatBooking' => ['controller'=>'BookSeatController', 'method'=>'CreateSeatBooking'],
 
-    '/login' => ['controller'=>'AuthController', 'method'=>'Login'],
+    '/Login' => ['controller'=>'AuthController', 'method'=>'Login'],
     '/Register' => ['controller'=>'AuthController', 'method'=>'Register'],
 
 ];
