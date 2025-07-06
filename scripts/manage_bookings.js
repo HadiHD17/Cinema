@@ -3,198 +3,144 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("bookings-modal");
   const form = document.getElementById("bookings-form");
   const closeBtn = document.getElementById("close-modal");
-  document.getElementById("add-booking-btn").addEventListener("click", () => {
-  openModal(); 
-});
+  const addBtn = document.getElementById("add-booking-btn");
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
+  
   loadBookings();
 
-  async function loadBookings() {
-    try {
-      body.innerHTML = "<tr><td colspan='7'>Loading bookings...</td></tr>";
+  
+  addBtn.addEventListener("click", () => {
+    openModal(); 
+  });
 
-      const response = await axios.get(
-        "http://localhost/wamp64_projects/Cinema/controllers/get_bookings.php",
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache'
-          }
-        }
-      );
-
-      if (!response.data || !response.data.bookings) {
-        throw new Error("Invalid data format from server");
-      }
-
-      displayBookings(response.data.bookings);
-    } catch (error) {
-      console.error("Error loading bookings:", error);
-      body.innerHTML = `
-        <tr>
-          <td colspan="7" class="error">
-            Error loading data: ${error.message}
-          </td>
-        </tr>
-      `;
-    }
-  }
-
-  function displayBookings(bookings) {
-    body.innerHTML = "";
-
-    if (bookings.length === 0) {
-      body.innerHTML = `
-        <tr>
-          <td colspan="7">No bookings found</td>
-        </tr>
-      `;
-      return;
-    }
-
-    bookings.forEach(booking => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${booking.id || 'N/A'}</td>
-        <td>${booking.user_id || 'N/A'}</td>
-        <td>${booking.showtime_id || 'N/A'}</td>
-        <td>${booking.total_price ? parseFloat(booking.total_price).toFixed(2) : '0.00'}</td>
-        <td>${booking.booking_time ? formatDate(booking.booking_time) : 'N/A'}</td>
-        <td>${booking.status || 'N/A'}</td>
-        <td>
-          <button class="edit-btn" data-id="${booking.id}">Edit</button>
-          <button class="delete-btn" data-id="${booking.id}">Delete</button>
-        </td>
-      `;
-      body.appendChild(row);
-    });
-
-    attachEventListeners();
-  }
-
-  function formatDate(dateString) {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleString();
-    } catch {
-      return dateString;
-    }
-  }
-
-  function attachEventListeners() {
-    document.querySelectorAll(".edit-btn").forEach(btn => {
-      btn.addEventListener("click", handleEdit);
-    });
-
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-      btn.addEventListener("click", handleDelete);
-    });
-  }
-
-  async function handleEdit(e) {
-    const bookingId = e.target.getAttribute("data-id");
-    try {
-      const response = await axios.get(
-        `http://localhost/wamp64_projects/Cinema/controllers/get_bookings.php?id=${bookingId}`
-      );
-
-      if (response.data && response.data.bookings ) {
-        const booking = response.data.bookings;
-        openModal(booking);
-      }
-    } catch (error) {
-      console.error("Error fetching booking:", error);
-      alert("Failed to load booking details");
-    }
-  }
-
-  async function handleDelete(e) {
-    const bookingId = e.target.getAttribute("data-id");
-    if (!confirm("Are you sure you want to delete this booking?")) return;
-
-    try {
-      const response = await axios.post(
-        "http://localhost/wamp64_projects/Cinema/controllers/post_bookings.php",
-        {
-          action: "delete",
-          data: { id: bookingId }
-        },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-
-      if (response.data.status === 200) {
-        alert("Booking deleted successfully");
-        loadBookings();
-      } else {
-        throw new Error(response.data.message || "Delete failed");
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert(error.message);
-    }
-  }
-
-  window.openModal = function (booking = {}) {
-    modal.classList.remove("hidden");
-
-    const bookingTime = booking.booking_time
-      ? new Date(booking.booking_time).toISOString().slice(0, 16)
-      : "";
-
-    form.elements["id"].value = booking.id || "";
-    form.elements["user_id"].value = booking.user_id || "";
-    form.elements["showtime_id"].value = booking.showtime_id || "";
-    form.elements["total_price"].value = booking.total_price || "";
-    form.elements["booking_time"].value = bookingTime;
-    form.elements["status"].value = booking.status || "confirmed";
-
-    form.setAttribute("data-mode", booking.id ? "update" : "create");
-  };
-
+  
   closeBtn.onclick = () => modal.classList.add("hidden");
 
+  
   form.onsubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-  user_id: form.elements["user_id"].value,
-  showtime_id: form.elements["showtime_id"].value,
-  total_price: form.elements["total_price"].value,
-  booking_time: form.elements["booking_time"].value,
-  status: form.elements["status"].value
-};
+    const id = form.elements.id.value.trim();
+    const BookingData = {
+      user_id: form.elements.user_id.value.trim(),
+      showtime_id: form.elements.showtime_id.value.trim(),
+      total_price: form.elements.total_price.value.trim(),
+      status: form.elements.status.value.trim(),
+    };
 
-if (form.elements["id"].value) {
-  formData.id = form.elements["id"].value;
-}
+    if (id) {
+      BookingData.id = parseInt(id, 10);
+    }
 
-    const mode = form.getAttribute("data-mode");
-    const action = mode === "update" ? "update" : "create";
+    const url = id
+      ? `${BASE_URL}/Update_Booking`
+      : `${BASE_URL}/Create_Booking`;
 
     try {
-      const response = await axios.post(
-        "http://localhost/wamp64_projects/Cinema/controllers/post_bookings.php",
-        {
-          action:mode,
-          data: formData
-        },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
+      const res = await axios.post(
+        url,
+        { data: BookingData },
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      if (response.data.status === 200) {
-        alert(`Booking ${mode === "update" ? "updated" : "created"} successfully`);
+      if (res.data.status === 200) {
+        alert("Booking saved successfully!");
         modal.classList.add("hidden");
         loadBookings();
       } else {
-        throw new Error(response.data.message || "Operation failed");
+        throw new Error(res.data.message || "Save failed");
       }
-    } catch (error) {
-      console.error("Save error:", error);
-      alert(`Error: ${error.message}`);
+    } catch (err) {
+      alert("Error: " + err.message);
+      console.error("Save error:", err);
     }
+  };
+
+  
+  async function loadBookings() {
+    try {
+      const res = await axios.get(`${BASE_URL}/All_Bookings`);
+      const data = res.data.payload || [];
+
+      body.innerHTML = "";
+      data.forEach((booking) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${booking.id}</td>
+          <td>${booking.user_id}</td>
+          <td>${booking.showtime_id}</td>
+          <td>${booking.total_price}</td>
+          <td>${booking.status}</td>
+          <td>
+            <button class="edit-btn" data-id="${booking.id}">Edit</button>
+            <button class="delete-btn" data-id="${booking.id}">Delete</button>
+          </td>
+        `;
+        body.appendChild(row);
+      });
+
+      attachListeners();
+    } catch (err) {
+      console.error("Failed to load bookings:", err);
+    }
+  }
+
+  
+  function attachListeners() {
+    
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        try {
+          const res = await axios.get(`${BASE_URL}/Booking?id=${id}`);
+          if (res.data && res.data.payload) {
+            openModal(res.data.payload);
+          } else {
+            alert("Failed to load booking data for editing");
+          }
+        } catch (err) {
+          console.error("Edit error:", err);
+          alert("Error loading booking data");
+        }
+      });
+    });
+
+    
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        if (confirm("Are you sure you want to delete this booking?")) {
+          try {
+            const res = await axios.post(
+              `${BASE_URL}/Delete_Booking`,
+              { id: parseInt(id, 10) },
+              { headers: { "Content-Type": "application/json" } }
+            );
+            if (res.data.status === 200) {
+              alert("booking deleted successfully!");
+              loadBookings();
+            } else {
+              throw new Error(res.data.message || "Delete failed");
+            }
+          } catch (err) {
+            console.error("Delete error:", err);
+            alert("Delete failed: " + err.message);
+          }
+        }
+      });
+    });
+  }
+
+
+  window.openModal = function (booking = {}) {
+    modal.classList.remove("hidden");
+    form.reset();
+
+    form.elements.id.value = booking.id || "";
+    form.elements.user_id.value = booking.user_id || "";
+    form.elements.showtime_id.value = booking.showtime_id || "";
+    form.elements.total_price.value = booking.total_price || "";
+    form.elements.status.value = booking.status || "";
   };
 });
