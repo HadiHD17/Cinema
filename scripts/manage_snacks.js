@@ -4,67 +4,75 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("snacks-form");
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-snack-btn");
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
+  
   loadSnacks();
 
+  
   addBtn.addEventListener("click", () => {
-    openModal();
+    openModal(); 
   });
 
+  
   closeBtn.onclick = () => modal.classList.add("hidden");
 
+  
   form.onsubmit = async (e) => {
     e.preventDefault();
-    const mode = form.getAttribute("data-mode");
 
-    const snackData = {
-      name: form.name.value,
-      price: form.price.value,
-      image: form.image.value
+    const id = form.elements.id.value.trim();
+    const SnackData = {
+      name: form.elements.name.value.trim(),
+      price: form.elements.price.value.trim(),
+      image: form.elements.image.value.trim(),
     };
 
-    if (mode === "update") {
-      snackData.id = form.id.value;
+    if (id) {
+      SnackData.id = parseInt(id, 10);
     }
 
+    const url = id
+      ? `${BASE_URL}/Update_Snack`
+      : `${BASE_URL}/Create_Snack`;
+
     try {
-      const res = await axios.post("http://localhost/wamp64_projects/Cinema/controllers/post_snacks.php", {
-        action: mode,
-        data: snackData
-      }, {
-        headers: { "Content-Type": "application/json" }
-      });
+      const res = await axios.post(
+        url,
+        { data: SnackData },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       if (res.data.status === 200) {
-        alert("Snack saved!");
+        alert("Snack saved successfully!");
         modal.classList.add("hidden");
         loadSnacks();
       } else {
-        alert("Error saving snack: " + res.data.message);
-        console.error(res.data);
+        throw new Error(res.data.message || "Save failed");
       }
     } catch (err) {
-      alert("Failed to save snack: " + err.message);
-      console.error(err);
+      alert("Error: " + err.message);
+      console.error("Save error:", err);
     }
   };
 
+  
   async function loadSnacks() {
     try {
-      const res = await axios.get("http://localhost/wamp64_projects/Cinema/controllers/get_snacks.php");
-      const snacks = res.data.snacks;
-      body.innerHTML = "";
+      const res = await axios.get(`${BASE_URL}/All_Snacks`);
+      const data = res.data.payload || [];
 
-      snacks.forEach(snack => {
+      body.innerHTML = "";
+      data.forEach((Snack) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${snack.id}</td>
-          <td>${snack.name}</td>
-          <td>${snack.price}</td>
-          <td><img src="${snack.image}" width="50" /></td>
+          <td>${Snack.id}</td>
+          <td>${Snack.name}</td>
+          <td>${Snack.price}</td>
+          <td>${Snack.image}</td>
           <td>
-            <button class="edit-btn" data-id="${snack.id}">Edit</button>
-            <button class="delete-btn" data-id="${snack.id}">Delete</button>
+            <button class="edit-btn" data-id="${Snack.id}">Edit</button>
+            <button class="delete-btn" data-id="${Snack.id}">Delete</button>
           </td>
         `;
         body.appendChild(row);
@@ -72,64 +80,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
       attachListeners();
     } catch (err) {
-      alert("Failed to load snacks");
-      console.error(err);
+      console.error("Failed to load snacks:", err);
     }
   }
 
+  
   function attachListeners() {
-    document.querySelectorAll(".edit-btn").forEach(button => {
-      button.addEventListener("click", async () => {
-        const id = button.getAttribute("data-id");
-
+    
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
         try {
-          const res = await axios.get(`http://localhost/wamp64_projects/Cinema/controllers/get_snacks.php?id=${id}`);
-          if (res.data && res.data.snack) {
-            openModal(res.data.snack);
+          const res = await axios.get(`${BASE_URL}/Snack?id=${id}`);
+          if (res.data && res.data.payload) {
+            openModal(res.data.payload);
           } else {
-            alert("Snack not found");
+            alert("Failed to load snack data for editing");
           }
         } catch (err) {
-          console.error("Error fetching snack:", err);
+          console.error("Edit error:", err);
+          alert("Error loading snack data");
         }
       });
     });
 
-    document.querySelectorAll(".delete-btn").forEach(button => {
-      button.addEventListener("click", async () => {
-        const id = button.getAttribute("data-id");
-        if (confirm("Delete this snack?")) {
+    
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        if (confirm("Are you sure you want to delete this snack?")) {
           try {
-            const res = await axios.post("http://localhost/wamp64_projects/Cinema/controllers/post_snacks.php", {
-              action: "delete",
-              data: { id }
-            }, {
-              headers: { "Content-Type": "application/json" }
-            });
-
+            const res = await axios.post(
+              `${BASE_URL}/Delete_Snack`,
+              { id: parseInt(id, 10) },
+              { headers: { "Content-Type": "application/json" } }
+            );
             if (res.data.status === 200) {
+              alert("snack deleted successfully!");
               loadSnacks();
             } else {
-              alert("Delete failed: " + res.data.message);
-              console.error(res.data);
+              throw new Error(res.data.message || "Delete failed");
             }
           } catch (err) {
-            alert("Failed to delete snack: " + err.message);
-            console.error(err);
+            console.error("Delete error:", err);
+            alert("Delete failed: " + err.message);
           }
         }
       });
     });
   }
 
+
   window.openModal = function (snack = {}) {
     modal.classList.remove("hidden");
+    form.reset();
 
-    form.id.value = snack.id || "";
-    form.name.value = snack.name || "";
-    form.price.value = snack.price || "";
-    form.image.value = snack.image || "";
-
-    form.setAttribute("data-mode", snack.id ? "update" : "create");
+    form.elements.id.value = snack.id || "";
+    form.elements.name.value = snack.name || "";
+    form.elements.price.value = snack.price || "";
+    form.elements.image.value = snack.image || "";
   };
 });
