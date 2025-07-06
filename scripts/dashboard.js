@@ -1,8 +1,10 @@
 const userId = new URLSearchParams(window.location.search).get('id');
+const bookingId = new URLSearchParams(window.location.search).get('booking_id') || null;
 
 document.addEventListener('DOMContentLoaded', () => {
   const content = document.getElementById('content');
   const navButtons = document.querySelectorAll('.nav-btn');
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
   navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -19,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadMovies() {
   content.innerHTML = '<h2>Loading Movies...</h2>';
   try {
-    const res = await axios.get('http://localhost/wamp64_projects/Cinema/controllers/get_movies.php');
-    const movies = res.data.movies;
+    const res = await axios.get(`${BASE_URL}/All_Movies`);
+    const movies = res.data.payload;
 
     let html = '<h2>🎬 Movies</h2><div class="movie-grid">';
     movies.forEach(movie => {
@@ -59,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = '<p>Loading showtimes...</p>';
 
     try {
-      const res = await axios.get(`http://localhost/wamp64_projects/Cinema/controllers/get_showtimes.php?movie_id=${movieId}`);
-      const showtimes = res.data.showtimes;
+      const res = await axios.get(`${BASE_URL}/All_Showtimes?movie_id=${movieId}`);
+      const showtimes = res.data.payload;
 
       if (!showtimes.length) {
         container.innerHTML = '<p>No showtimes available.</p>';
@@ -90,9 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadSnacks() {
     content.innerHTML = '<h2>Loading Snacks...</h2>';
+    
     try {
-      const res = await axios.get('http://localhost/wamp64_projects/Cinema/controllers/get_snacks.php');
-      const snacks = res.data.snacks;
+      const res = await axios.get(`${BASE_URL}/All_Snacks`);
+      const snacks = res.data.payload;
 
       let html = '<h2>🍿 Snacks</h2><div class="snack-grid">';
       snacks.forEach(snack => {
@@ -117,13 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const quantity = parseInt(prompt("Enter quantity to order:"), 10);
     if (!quantity || quantity <= 0) 
       return alert('Invalid quantity');
+    console.log('Booking ID:', bookingId, 'Snack ID:', snackId, 'Quantity:', quantity);
 
-    axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_snackorders.php', {
-      user_id: userId,
+
+    axios.post(`${BASE_URL}/Create_SnackOrder`, {
+      "data":{
+      booking_id: bookingId,
       snack_id: snackId,
       quantity
+      }
     }).then(() => {
-      window.location.href = `snack_order_success.html?id=${userId}`;
+      window.location.href = `snack_order_success.html?id=${userId}&booking_id=${bookingId}`;
     }).catch(err => {
       alert('Failed to place snack order.');
       console.error(err);
@@ -133,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadAccount() {
   content.innerHTML = '<h2>Loading Account...</h2>';
   try {
-    const res = await axios.get(`http://localhost/wamp64_projects/Cinema/controllers/get_users.php?id=${userId}`);
-    const user = res.data.users;
+    const res = await axios.get(`${BASE_URL}/User?id=${userId}`);
+    const user = res.data.payload;
 
     if (!user) {
       content.innerHTML = '<p>User data not found.</p>';

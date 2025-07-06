@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("users-form");
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-user-btn");
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
   
   loadUsers();
@@ -41,10 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let url;
     if (id) {
-      url = "http://localhost/wamp64_projects/Cinema/Update_User";
+      url = `${BASE_URL}/Update_User`;
       userData.id = parseInt(id, 10);
     } else {
-      url = "http://localhost/wamp64_projects/Cinema/Create_User";
+      url = `${BASE_URL}/Create_User`;
     }
 
     try {
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadUsers() {
     try {
       const response = await axios.get(
-        "http://localhost/wamp64_projects/Cinema/All_Users"
+        `${BASE_URL}/All_Users`
       );
       const users = response.data.payload || [];
       body.innerHTML = "";
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = btn.getAttribute("data-id");
         try {
           const res = await axios.get(
-            `http://localhost/wamp64_projects/Cinema/User?id=${id}`
+            `${BASE_URL}/User?id=${id}`
           );
           if (res.data && res.data.payload) {
             openModal(res.data.payload);
@@ -129,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (confirm("Are you sure you want to delete this user?")) {
           try {
             const res = await axios.post(
-              "http://localhost/wamp64_projects/Cinema/Delete_User",
+              `${BASE_URL}/Delete_User`,
               { id: parseInt(id, 10) },
               { headers: { "Content-Type": "application/json" } }
             );

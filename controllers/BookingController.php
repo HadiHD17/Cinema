@@ -42,8 +42,18 @@ class BookingController{
                     return;
                 }
             }
-            Booking::create($data);
-            echo ResponseService::success_response("Booking created successfully");
+            $insertedId = Booking::create($data);
+
+        
+            $bookingInfo = [
+                'id' => $insertedId,
+                'user_id' => $data['user_id'],
+                'showtime_id' => $data['showtime_id'],
+                'total_price' => $data['total_price'],
+                'status' => $data['status']
+            ];
+            echo ResponseService::success_response($bookingInfo);
+
             return;
         }catch(Throwable $e){
             http_response_code(500);

@@ -49,7 +49,6 @@ $apis=[
     '/Update_Booking' => ['controller'=>'BookingController', 'method'=>'UpdateBooking'],
     '/Create_Booking' => ['controller'=>'BookingController', 'method'=>'CreateBooking'],
 
-    '/Update_SeatBooking' => ['controller'=>'BookSeatController', 'method'=>'UpdateSeatBooking'],
     '/Create_SeatBooking' => ['controller'=>'BookSeatController', 'method'=>'CreateSeatBooking'],
 
     '/Login' => ['controller'=>'AuthController', 'method'=>'Login'],

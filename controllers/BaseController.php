@@ -4,6 +4,7 @@ require_once(__DIR__."/../models/Admin.php");
 require_once(__DIR__."/../models/User.php");
 require_once(__DIR__."/../connection/connection.php");
 require_once(__DIR__."/../models/Booking.php");
+require_once(__DIR__."/../models/BookingSeat.php");
 require_once(__DIR__."/../models/Movie.php");
 require_once(__DIR__."/../models/Payment.php");
 require_once(__DIR__."/../models/Seat.php");

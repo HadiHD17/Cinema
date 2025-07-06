@@ -51,4 +51,15 @@ class Seat extends Model {
             
         ];
     }
+
+    public static function updateStatus(int $seat_id, string $status="booked"){
+        $sql = "UPDATE seats SET status = ? WHERE id = ?";
+        $query = static::$db->prepare($sql);
+        if (!$query) throw new Exception(static::$db->error);
+        $query->bind_param("si", $status, $seat_id);
+        $query->execute();
+        $query->close();
+    }
+
+
 }

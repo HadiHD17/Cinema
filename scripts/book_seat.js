@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const showtimeId = params.get('showtime_id');
   const userId = params.get('id');
   const seatGrid = document.getElementById('seats-grid');
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
   if (!showtimeId || !userId) {
     seatGrid.innerHTML = '<p>Missing required parameters.</p>';
@@ -12,8 +13,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   let selectedSeats = [];
 
   try {
-    const res = await axios.get(`http://localhost/wamp64_projects/Cinema/controllers/get_seats.php?showtime_id=${showtimeId}`);
-    const allseats = res.data.seats;
+    const res = await axios.get(`${BASE_URL}/All_Seats?showtime_id=${showtimeId}`);
+    const allseats = res.data.payload;
     const seats=allseats.filter(seat=>seat.showtime_id==showtimeId);
 
     if (!seats.length) {
@@ -110,8 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       try {
         
-        const bookingRes = await axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_bookings.php', {
-          action: "create",
+        const bookingRes = await axios.post(`${BASE_URL}/Create_Booking`, {
           data: {
             user_id: userId,
             showtime_id: showtimeId,
@@ -120,14 +120,19 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         });
 
-        const bookingId = bookingRes.data?.data?.id;
+        
+
+        const bookingId = bookingRes.data?.payload?.id;
+
         if (!bookingId) throw new Error("Booking ID not returned");
 
         
         for (const seat of selectedSeats) {
-          await axios.post('http://localhost/wamp64_projects/Cinema/controllers/post_booking_seats.php', {
+          await axios.post(`${BASE_URL}/Create_SeatBooking`, {
+            "data":{
             booking_id: bookingId,
             seat_id: seat.id
+            }
           });
         }
 
@@ -150,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         
         setTimeout(() => {
-          window.location.href = `dashboard.html?id=${userId}`;
+          window.location.href = `dashboard.html?id=${userId}&booking_id=${bookingId}`;
         }, 2000);
 
       } catch (err) {

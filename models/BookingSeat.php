@@ -1,5 +1,6 @@
 <?php
 require_once("Model.php");
+require_once("Seat.php");
 class BookingSeat extends Model{
     private int $id;
     private int $seat_id;
@@ -41,5 +42,8 @@ class BookingSeat extends Model{
         "booking_id" => $this->booking_id,
     ];
     }
+
+    
+
 
 }
