@@ -4,75 +4,75 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("seats-form");
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-seat-btn"); 
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
- 
-
+  
   loadSeats();
 
-  if (addBtn) {
-    addBtn.addEventListener("click", () => {
-      
-      openModal();
-    });
-  }
+  
+  addBtn.addEventListener("click", () => {
+    openModal(); 
+  });
 
+  
   closeBtn.onclick = () => modal.classList.add("hidden");
 
+  
   form.onsubmit = async (e) => {
     e.preventDefault();
-    const mode = form.getAttribute("data-mode");
-    const seatData = {
-  showtime_id: form.elements.showtime_id.value,
-  seat_label: form.elements.seat_label.value,
-  status: form.elements.status.value
-};
 
-if (mode === "update") {
-  seatData.id = form.elements.id.value; 
-}
+    const id = form.elements.id.value.trim();
+    const SeatData = {
+      showtime_id: form.elements.showtime_id.value.trim(),
+      seat_label: form.elements.seat_label.value.trim(),
+      status: form.elements.status.value.trim(),
+    };
+
+    if (id) {
+      SeatData.id = parseInt(id, 10);
+    }
+
+    const url = id
+      ? `${BASE_URL}/Update_Seat`
+      : `${BASE_URL}/Create_Seat`;
 
     try {
-      const response = await axios.post(
-        "http://localhost/wamp64_projects/Cinema/controllers/post_seats.php",
-        {
-          action: mode,
-          data: seatData
-        },
-        {
-          headers: { "Content-Type": "application/json" }
-        }
+      const res = await axios.post(
+        url,
+        { data: SeatData },
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      if (response.data.status === 200) {
-        alert("Seat saved!");
+      if (res.data.status === 200) {
+        alert("Seat saved successfully!");
         modal.classList.add("hidden");
         loadSeats();
       } else {
-        console.error("❌ Server error:", response.data);
-        alert("Failed to save seat: " + (response.data.message || "Unknown error"));
+        throw new Error(res.data.message || "Save failed");
       }
     } catch (err) {
-      console.error("Submit error:", err);
-      alert("An error occurred while saving seat.");
+      alert("Error: " + err.message);
+      console.error("Save error:", err);
     }
   };
 
+  
   async function loadSeats() {
     try {
-      const response = await axios.get("http://localhost/wamp64_projects/Cinema/controllers/get_seats.php");
-      const data = response.data.seats || [];
-      body.innerHTML = "";
+      const res = await axios.get(`${BASE_URL}/All_Seats`);
+      const data = res.data.payload || [];
 
-      data.forEach(seat => {
+      body.innerHTML = "";
+      data.forEach((Seat) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${seat.id}</td>
-          <td>${seat.showtime_id}</td>
-          <td>${seat.seat_label}</td>
-          <td>${seat.status}</td>
+          <td>${Seat.id}</td>
+          <td>${Seat.showtime_id}</td>
+          <td>${Seat.seat_label}</td>
+          <td>${Seat.status}</td>
           <td>
-            <button class="edit-btn" data-id="${seat.id}">Edit</button>
-            <button class="delete-btn" data-id="${seat.id}">Delete</button>
+            <button class="edit-btn" data-id="${Seat.id}">Edit</button>
+            <button class="delete-btn" data-id="${Seat.id}">Delete</button>
           </td>
         `;
         body.appendChild(row);
@@ -84,54 +84,60 @@ if (mode === "update") {
     }
   }
 
+  
   function attachListeners() {
-    document.querySelectorAll(".edit-btn").forEach(btn => {
+    
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
         try {
-          const res = await axios.get(`http://localhost/wamp64_projects/Cinema/controllers/get_seats.php?id=${id}`);
-          if (res.data && res.data.seats) {
-            openModal(res.data.seats);
+          const res = await axios.get(`${BASE_URL}/Seat?id=${id}`);
+          if (res.data && res.data.payload) {
+            openModal(res.data.payload);
           } else {
-            alert("Seat data not found.");
+            alert("Failed to load seat data for editing");
           }
         } catch (err) {
           console.error("Edit error:", err);
-          alert("Failed to load seat data.");
+          alert("Error loading seat data");
         }
       });
     });
 
-    document.querySelectorAll(".delete-btn").forEach(btn => {
+    
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
-        if (confirm("Delete this seat?")) {
+        if (confirm("Are you sure you want to delete this seat?")) {
           try {
             const res = await axios.post(
-              "http://localhost/wamp64_projects/Cinema/controllers/post_seats.php",
-              { action: "delete",  data:{id}  },
+              `${BASE_URL}/Delete_Seat`,
+              { id: parseInt(id, 10) },
               { headers: { "Content-Type": "application/json" } }
             );
             if (res.data.status === 200) {
+              alert("seat deleted successfully!");
               loadSeats();
             } else {
-              alert("Failed to delete seat: " + (res.data.message || "Unknown error"));
+              throw new Error(res.data.message || "Delete failed");
             }
           } catch (err) {
             console.error("Delete error:", err);
-            alert("Failed to delete seat.");
+            alert("Delete failed: " + err.message);
           }
         }
       });
     });
   }
 
-  window.openModal = function(seat = {}) {
+
+  window.openModal = function (seat = {}) {
     modal.classList.remove("hidden");
+    form.reset();
+
     form.elements.id.value = seat.id || "";
     form.elements.showtime_id.value = seat.showtime_id || "";
     form.elements.seat_label.value = seat.seat_label || "";
-    form.elements.status.value = seat.status || "available";
-    form.setAttribute("data-mode", seat.id ? "update" : "create");
+    form.elements.status.value = seat.status || "";
   };
 });
