@@ -5,6 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-showtime-btn");
   const BASE_URL = "http://localhost/wamp64_projects/Cinema";
+  const hamburger = document.getElementById('hamburger');
+const sidebar = document.querySelector('.sidebar');
+
+hamburger.addEventListener('click', () => {
+  sidebar.classList.toggle('show');
+  document.body.classList.toggle('sidebar-open');
+});
+
 
   
   loadShowtimes();
@@ -26,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
       movie_id: form.elements.movie_id.value.trim(),
       auditorium: form.elements.auditorium.value.trim(),
       show_date: form.elements.show_date.value.trim(),
-      show_time: form.elements.show_time.value.trim()
+      show_time: form.elements.show_time.value.trim(),
+      is_peak: form.elements.is_peak.value.trim()
     };
 
     if (id) {
@@ -72,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${showtime.auditorium}</td>
           <td>${showtime.show_date}</td>
           <td>${showtime.show_time}</td>
+          <td>${showtime.is_peak}</td>
           <td>
             <button class="edit-btn" data-id="${showtime.id}">Edit</button>
             <button class="delete-btn" data-id="${showtime.id}">Delete</button>
@@ -142,5 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.elements.auditorium.value = showtime.auditorium || "";
     form.elements.show_date.value = showtime.show_date || "";
     form.elements.show_time.value = showtime.show_time || "";
+    form.elements.is_peak.value = showtime.is_peak || "";
   };
 });

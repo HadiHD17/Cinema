@@ -8,6 +8,11 @@
   <script defer src="../scripts/manage_users.js"></script>
 </head>
 <body>
+  <div class="hamburger" id="hamburger">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
   <div class="admin-container">
     <aside class="sidebar">
       <h2>Admin Panel</h2>
@@ -25,6 +30,7 @@
     <main class="main-content">
       <h1>Manage Users</h1>
       <button id="add-user-btn">Add New User</button>
+      <div class="table-wrapper">
       <table>
         <thead>
           <tr>
@@ -40,6 +46,7 @@
         </thead>
         <tbody id="users-table-body"></tbody>
       </table>
+      </div>
     </main>
   </div>
 

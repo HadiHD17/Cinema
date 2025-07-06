@@ -5,6 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-snack-btn");
   const BASE_URL = "http://localhost/wamp64_projects/Cinema";
+  const hamburger = document.getElementById('hamburger');
+const sidebar = document.querySelector('.sidebar');
+
+hamburger.addEventListener('click', () => {
+  sidebar.classList.toggle('show');
+  document.body.classList.toggle('sidebar-open');
+});
+
 
   
   loadSnacks();
