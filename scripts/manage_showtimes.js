@@ -12,19 +12,14 @@ hamburger.addEventListener('click', () => {
   sidebar.classList.toggle('show');
   document.body.classList.toggle('sidebar-open');
 });
-
-
   
   loadShowtimes();
 
-  
   addBtn.addEventListener("click", () => {
     openModal(); 
   });
 
-  
   closeBtn.onclick = () => modal.classList.add("hidden");
-
   
   form.onsubmit = async (e) => {
     e.preventDefault();

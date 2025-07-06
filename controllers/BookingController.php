@@ -43,8 +43,6 @@ class BookingController{
                 }
             }
             $insertedId = Booking::create($data);
-
-        
             $bookingInfo = [
                 'id' => $insertedId,
                 'user_id' => $data['user_id'],
