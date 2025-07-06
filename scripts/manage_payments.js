@@ -4,158 +4,143 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("payments-form");
   const closeBtn = document.getElementById("close-modal");
   const addBtn = document.getElementById("add-payment-btn");
+  const BASE_URL = "http://localhost/wamp64_projects/Cinema";
 
   
   loadPayments();
 
   
-  addBtn.addEventListener("click", () => openModal());
+  addBtn.addEventListener("click", () => {
+    openModal(); 
+  });
 
   
   closeBtn.onclick = () => modal.classList.add("hidden");
 
   
-  form.onsubmit = (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
-    const mode = form.getAttribute("data-mode");
 
-    const paymentData = {
-      booking_id: form.booking_id.value,
-      amount: form.amount.value,
-      payment_method: form.payment_method.value,
-      payer_user_id: form.payer_user_id.value,
-      payment_time: form.payment_time.value
+    const id = form.elements.id.value.trim();
+    const PaymentData = {
+      booking_id: form.elements.booking_id.value.trim(),
+      amount: form.elements.amount.value.trim(),
+      payment_method: form.elements.payment_method.value.trim(),
+      payer_user_id: form.elements.payer_user_id.value.trim(),
     };
 
-    if (mode === "update") {
-      paymentData.id = form.id.value;
+    if (id) {
+      PaymentData.id = parseInt(id, 10);
     }
 
-    axios
-      .post("http://localhost/wamp64_projects/Cinema/controllers/post_payments.php", {
-        action: mode,
-        data: paymentData
-      })
-      .then((res) => {
-        if (res.data.status === 200) {
-          alert("Payment saved!");
-          modal.classList.add("hidden");
-          loadPayments();
-        } else {
-          alert("Failed to save payment: " + res.data.message);
-          console.error(res.data);
-        }
-      })
-      .catch((err) => {
-        alert("Error saving payment");
-        console.error(err);
-      });
+    const url = id
+      ? `${BASE_URL}/Update_Payment`
+      : `${BASE_URL}/Create_Payment`;
+
+    try {
+      const res = await axios.post(
+        url,
+        { data: PaymentData },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      if (res.data.status === 200) {
+        alert("Payment saved successfully!");
+        modal.classList.add("hidden");
+        loadPayments();
+      } else {
+        throw new Error(res.data.message || "Save failed");
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+      console.error("Save error:", err);
+    }
   };
 
   
-  function loadPayments() {
-    axios
-      .get("http://localhost/wamp64_projects/Cinema/controllers/get_payments.php")
-      .then((res) => {
-        const payments = res.data.payments;
-        body.innerHTML = "";
+  async function loadPayments() {
+    try {
+      const res = await axios.get(`${BASE_URL}/All_Payments`);
+      const data = res.data.payload || [];
 
-        payments.forEach((payment) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${payment.id}</td>
-            <td>${payment.booking_id}</td>
-            <td>${payment.amount}</td>
-            <td>${payment.payment_method}</td>
-            <td>${payment.payer_user_id}</td>
-            <td>${formatForDisplay(payment.payment_time)}</td>
-            <td>
-              <button class="edit-btn" data-id="${payment.id}">Edit</button>
-              <button class="delete-btn" data-id="${payment.id}">Delete</button>
-            </td>
-          `;
-          body.appendChild(row);
-        });
-
-        attachListeners();
-      })
-      .catch((err) => {
-        console.error("Failed to load payments:", err);
+      body.innerHTML = "";
+      data.forEach((Payment) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${Payment.id}</td>
+          <td>${Payment.booking_id}</td>
+          <td>${Payment.amount}</td>
+          <td>${Payment.payment_method}</td>
+          <td>${Payment.payer_user_id}</td>
+          <td>
+            <button class="edit-btn" data-id="${Payment.id}">Edit</button>
+            <button class="delete-btn" data-id="${Payment.id}">Delete</button>
+          </td>
+        `;
+        body.appendChild(row);
       });
+
+      attachListeners();
+    } catch (err) {
+      console.error("Failed to load payments:", err);
+    }
   }
-
-  
-  function formatForDisplay(datetime) {
-    return new Date(datetime).toLocaleString();
-  }
-
-  
-  function formatForInput(datetime) {
-    const d = new Date(datetime);
-    return d.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
-  }
-
-  
-  window.openModal = function (payment = {}) {
-    modal.classList.remove("hidden");
-
-    form.id.value = payment.id || "";
-    form.booking_id.value = payment.booking_id || "";
-    form.amount.value = payment.amount || "";
-    form.payment_method.value = payment.payment_method || "card";
-    form.payer_user_id.value = payment.payer_user_id || "";
-    form.payment_time.value = payment.payment_time
-      ? formatForInput(payment.payment_time)
-      : "";
-
-    form.setAttribute("data-mode", payment.id ? "update" : "create");
-  };
 
   
   function attachListeners() {
+    
     document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
-
         try {
-          const res = await axios.get(
-            `http://localhost/wamp64_projects/Cinema/controllers/get_payments.php?id=${id}`
-          );
-          if (res.data && res.data.payment) {
-            openModal(res.data.payment);
+          const res = await axios.get(`${BASE_URL}/Payment?id=${id}`);
+          if (res.data && res.data.payload) {
+            openModal(res.data.payload);
           } else {
-            alert("Payment not found");
+            alert("Failed to load payment data for editing");
           }
         } catch (err) {
           console.error("Edit error:", err);
+          alert("Error loading payment data");
         }
       });
     });
 
+    
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.getAttribute("data-id");
         if (confirm("Are you sure you want to delete this payment?")) {
           try {
             const res = await axios.post(
-              "http://localhost/wamp64_projects/Cinema/controllers/post_payments.php",
-              {
-                action: "delete",
-                data: { id }
-              }
+              `${BASE_URL}/Delete_Payment`,
+              { id: parseInt(id, 10) },
+              { headers: { "Content-Type": "application/json" } }
             );
-
             if (res.data.status === 200) {
+              alert("payment deleted successfully!");
               loadPayments();
             } else {
-              alert("Failed to delete payment: " + res.data.message);
+              throw new Error(res.data.message || "Delete failed");
             }
           } catch (err) {
             console.error("Delete error:", err);
-            alert("Delete error");
+            alert("Delete failed: " + err.message);
           }
         }
       });
     });
   }
+
+
+  window.openModal = function (payment = {}) {
+    modal.classList.remove("hidden");
+    form.reset();
+
+    form.elements.id.value = payment.id || "";
+    form.elements.booking_id.value = payment.booking_id || "";
+    form.elements.amount.value = payment.amount || "";
+    form.elements.payment_method.value = payment.payment_method || "";
+    form.elements.payer_user_id.value = payment.payer_user_id || "";
+  };
 });
